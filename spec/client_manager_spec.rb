@@ -10,6 +10,10 @@ describe ClientManager do
     client_manager.clients.include?(bob)
 
     bob.add_task("Yak shaving", "0")
+    bob.add_task("Yak milking", "0.5")
     bob.tasks.should include("Yak shaving")
+    bob.tasks.should include("Yak milking")
+    client_manager.clients[bob].should include("Yak shaving")
+    client_manager.clients[bob].should include("Yak milking")
   end
 end
