@@ -2,16 +2,15 @@ class Client
   attr_accessor :tasks, :name
 
   def initialize(name)
-    @tasks = {}
     @name = name
+    @tasks = []
   end
 
-  def add_task(task_description, priority)
-    tasks[task_description] = priority
+  def add_task(task_description)
+    tasks << task_description
   end
 
   def top_task
-    sorted_tasks = @tasks.sort {|task1, task2| task2[1] <=> task1[1]}
-    sorted_tasks.flatten[0]
+    @tasks.last
   end
 end

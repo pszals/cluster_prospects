@@ -1,3 +1,5 @@
+require_relative 'client'
+
 class ClientManager
   attr_accessor :clients
 
@@ -6,6 +8,13 @@ class ClientManager
   end
 
   def add_client(client)
-    @clients[client] = client.tasks
+    @clients[client.name] = client
+  end
+
+  def new_client(name)
+    if !(@clients.has_key?(name))
+      client = Client.new(name)     
+      add_client(client) 
+    end
   end
 end

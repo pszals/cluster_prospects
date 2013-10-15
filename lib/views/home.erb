@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="cluster.css">
+  </head>
+  
+  <br>
+
+  <body>
+    <h1>
+      Cluster: Track clients and tasks
+  </h1>
+    <p>
+      <form action="/" method="POST">
+        Enter a client name: <input type="text" name="new_client">
+        Enter a task: <input size="50" type="text" name="task">
+        <input type="submit" value="Submit">
+      </form>
+    </p>
+    <%  if @client_list.clients != {} %>
+      <table border=".25">
+        <tr>
+          <td><b>Client</b></td>
+          <td><b>Top Task</b></td>
+        </tr>
+        <% @client_list.clients.each do |client_name, client_object| %>
+          <tr>
+            <td> <%= "#{client_name.to_s}" %> </td>
+            <td> <%= "#{client_object.top_task}" %> </td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
+  </body>
+</html>
