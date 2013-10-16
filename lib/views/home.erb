@@ -13,22 +13,27 @@
       <form action="/" method="POST">
         Enter a client name: <input type="text" name="new_client">
         Enter a task: <input size="50" type="text" name="task">
+        Task Priority: 
+        low<input type="radio" name="priority" value="1" checked>
+        med<input type="radio" name="priority" value="2">
+        highest<input type="radio" name="priority" value="3">
         <input type="submit" value="Submit">
       </form>
     </p>
-    <%  if @client_list.clients != {} %>
+    <%  if @client_list.clients != [] %>
       <table border=".25">
         <tr>
           <td><b>Client</b></td>
           <td><b>Top Task</b></td>
         </tr>
-        <% @client_list.clients.each do |client_name, client_object| %>
+        <% @client_list.clients.each do |client| %>
           <tr>
-            <td> <%= "#{client_name.to_s}" %> </td>
-            <td> <%= "#{client_object.top_task}" %> </td>
+            <td> <%= "#{client.name.to_s}" %> </td>
+            <td> <%= "#{client.top_task.description}" %> </td>
           </tr>
         <% end %>
       </table>
     <% end %>
+    <p><a href="/all_tasks">View all tasks</a></p>
   </body>
 </html>

@@ -1,20 +1,18 @@
 require_relative 'client'
+require_relative 'task'
 
 class ClientManager
   attr_accessor :clients
 
   def initialize
-    @clients = {} 
+    @clients = [] 
   end
 
   def add_client(client)
-    @clients[client.name] = client
+    @clients << client
   end
 
   def new_client(name)
-    if !(@clients.has_key?(name))
-      client = Client.new(name)     
-      add_client(client) 
-    end
+    add_client(Client.new(name)) if @clients.select{ |client| client.name == name }.length == 0
   end
 end

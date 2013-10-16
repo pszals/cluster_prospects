@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="cluster.css">
+  </head>
+  
+  <br>
+
+  <body>
+    <h1>
+      Cluster: View all tasks
+  </h1>
+    <%  if @client_list.clients != [] %>
+      <table border=".25">
+        <tr>
+          <td><b>Client</b></td>
+          <td><b>Task</b></td>
+          <td><b>Completed?</b></td>
+          <td><b>Click to Complete</b></td>
+        </tr>
+        <% @client_list.clients.each do |client| %>
+          <% client.sort_tasks %>
+          <% client.tasks.each do |task| %>
+            <tr>
+              <td> <%= "#{client.name.to_s}" %> </td>
+              <td> <%= "#{task.description}" %> </td>
+              <td> <%= "#{task.completed}" %> </td>
+              <td> 
+                <form action="/all_tasks" method="POST">
+                  <input type="submit" value="<%= client.name %>" name="<%= task.description %>">
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    <% end %>
+    <p><a href="/">View top tasks</a></p>
+  </body>
+</html>

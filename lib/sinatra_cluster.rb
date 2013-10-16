@@ -24,6 +24,24 @@ class Sinatra_Cluster < Sinatra::Base
     erb :home    
   end
 
+  get '/all_tasks' do
+    @client_list = @@client_manager
+    erb :all_tasks
+  end
+
+  post '/all_tasks' do
+    @client_list = @@client_manager
+        p params
+    @@client_manager.clients.each do |client|
+      client.tasks.each do |task|
+        if params[task.description.underscore.to_sym] == client.name
+          task.complete
+        end
+      end
+    end
+    erb :all_tasks
+  end
+
   def initialize_client_manager
     @@client_manager ||= ClientManager.new
   end
@@ -33,6 +51,8 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   def add_task
-    @@client_manager.clients[params[:new_client].to_s].add_task(params[:task].to_s)
+    @@client_manager.clients.each do |client|
+      client.add_task(params[:task].to_s, params[:priority].to_i) if client.name == params[:new_client].to_s
+    end
   end
 end
