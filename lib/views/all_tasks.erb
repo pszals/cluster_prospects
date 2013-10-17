@@ -26,7 +26,7 @@
               <td> <%= "#{task.completed}" %> </td>
               <td> 
                 <form action="/all_tasks" method="POST">
-                  <input type="submit" value="<%= client.name %>" name="<%= task.description %>">
+                  <input type="submit" value="<%= client.name %>" name="<%= task.description.underscore %>">
               </td>
             </tr>
           <% end %>
@@ -34,5 +34,7 @@
       </table>
     <% end %>
     <p><a href="/">View top tasks</a></p>
+    <p><a href="/add_client">Add client</a></p>
+    <p><a href="/add_task">Add a task</a></p>
   </body>
 </html>

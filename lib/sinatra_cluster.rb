@@ -1,8 +1,8 @@
 $LOAD_PATH.unshift File.expand_path('./', __FILE__)
 
 require 'sinatra'
-require 'sinatra/cookies'
 require 'bundler'
+require 'data_mapper'
 require_relative 'client_manager'
 
 Bundler.require(:default)
@@ -31,7 +31,6 @@ class Sinatra_Cluster < Sinatra::Base
 
   post '/all_tasks' do
     @client_list = @@client_manager
-        p params
     @@client_manager.clients.each do |client|
       client.tasks.each do |task|
         if params[task.description.underscore.to_sym] == client.name
@@ -39,6 +38,28 @@ class Sinatra_Cluster < Sinatra::Base
         end
       end
     end
+    erb :all_tasks
+  end
+
+  get '/add_client' do
+    @client_list = @@client_manager
+    erb :add_client
+  end
+
+  post '/add_client' do
+    make_new_client
+    @client_list = @@client_manager
+    erb :add_client
+  end
+
+  get '/add_task' do
+    @client_list = @@client_manager
+    erb :add_task
+  end
+
+  post '/add_task' do
+    @client_list = @@client_manager
+    add_task
     erb :all_tasks
   end
 

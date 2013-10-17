@@ -6,7 +6,7 @@ def app
 end
 
 describe Sinatra_Cluster do
- # let(:cluster) { Sinatra_Cluster.new }
+   let(:cluster) { Sinatra_Cluster.new }
 
   describe 'cluster home page' do
     it 'retrieves a 200 response' do
@@ -32,6 +32,27 @@ describe Sinatra_Cluster do
   describe 'completing a task' do
     it 'retrieves a 200 response' do
       post '/all_tasks'
+      last_response.status.should == 200
+    end
+  end
+
+  describe 'viewing all clients' do
+    it 'retrieves a 200 response' do
+      get '/add_client'
+      last_response.status.should == 200
+    end
+  end
+
+  describe 'adding a client' do
+    it 'retrieves a 200 response' do
+      post '/add_client'
+      last_response.status.should == 200
+    end
+  end
+
+  describe 'adding a task' do
+    it 'retrieves a 200 response' do
+      post '/add_task'
       last_response.status.should == 200
     end
   end

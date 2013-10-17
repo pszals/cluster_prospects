@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 gem 'sinatra-contrib'
 gem 'sinatra'
+gem 'data_mapper'
 
 group :test do
   gem 'rack'

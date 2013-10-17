@@ -7,26 +7,28 @@
 
   <body>
     <h1>
-      Cluster: Track clients and tasks
-    </h1>
+      Cluster: Add client 
+  </h1>
+    <p>
+      <form action="/add_client" method="POST">
+        Enter a client name: <input type="text" name="new_client">
+        <input type="submit" value="Submit">
+      </form>
+    </p>
     <%  if @client_list.clients != [] %>
       <table border=".25">
         <tr>
-          <td><b>Client</b></td>
-          <td><b>Top Task</b></td>
+          <td><b>Clients</b></td>
         </tr>
         <% @client_list.clients.each do |client| %>
-          <tr>
-            <td> <%= "#{client.name.to_s}" %> </td>
-            <td> <%= "#{client.top_task.description if client.top_task != nil}" %> </td>
-          </tr>
+            <tr>
+              <td> <%= "#{client.name.to_s}" %> </td>
+            </tr>
         <% end %>
       </table>
-    <% else %>
-      <p>There are no clients in the database.</p>
     <% end %>
+    <p><a href="/">View top tasks</a></p>
     <p><a href="/all_tasks">View all tasks</a></p>
-    <p><a href="/add_client">Add client</a></p>
     <p><a href="/add_task">Add a task</a></p>
   </body>
 </html>
