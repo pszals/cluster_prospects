@@ -30,6 +30,27 @@
       You must <a href="/add_client">add a client</a> before you can add a task.
       <% end %>
     </p>
+    <p>
+      <%  if @clients %>
+    <form action="/add_task" method="POST">
+      <%  if @clients %>
+        <select name="client_id">
+          <% @clients.each do |client|  %>
+            <option value="<%= client.id  %>"> <%= client.name  %> </option>
+          <% end %>
+        </select>
+      <% end %>
+        Enter a task: <input size="50" type="text" name="task">
+        Task Priority: 
+        low<input type="radio" name="priority" value="1" checked>
+        med<input type="radio" name="priority" value="2">
+        highest<input type="radio" name="priority" value="3">
+        <input type="submit" value="Submit">
+      </form>
+    <% else %>
+      You must <a href="/add_client">add a client</a> before you can add a task.
+      <% end %>
+    </p>
     <p><a href="/all_tasks">View all tasks</a></p>
     <p><a href="/add_client">Add client</a></p>
   </body>

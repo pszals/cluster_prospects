@@ -1,4 +1,4 @@
-class Client
+class ClientModel
   include DataMapper::Resource
   property :id, Serial
   property :name, String
@@ -6,5 +6,5 @@ class Client
   property :created_at, DateTime
   property :updated_at, DateTime
 
-  has n, :tasks
+  has n, :task_models
 end
