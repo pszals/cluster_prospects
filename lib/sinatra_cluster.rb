@@ -19,75 +19,68 @@ class Sinatra_Cluster < Sinatra::Base
   attr_reader :params, :client_manager
 
   get '/' do
-    initialize_client_manager
-    @client_list = @@client_manager
+    @clients = ClientModel.all(:order => [:name.asc]) 
+    @clients.each do |client|
+      client.task_models.all(:order => [:priority.asc]) if client.task_models != []
+    end
     erb :home
   end
 
   post '/' do
-    make_new_client
-    add_task
-    @client_list = @@client_manager
+    @clients = ClientModel.all
     erb :home    
   end
 
   get '/all_tasks' do
-    @client_list = @@client_manager
-    erb :all_tasks
-  end
-
-  post '/all_tasks' do
-    @client_list = @@client_manager
-    @@client_manager.clients.each do |client|
-      client.tasks.each do |task|
-        if params[task.description.underscore.to_sym] == client.name
-          task.complete
-        end
-      end
+    @clients = ClientModel.all(:order => [:name.asc]) 
+    @clients.each do |client|
+      client.task_models.all(:order => [:priority.desc]) if client.task_models != []
     end
     erb :all_tasks
   end
 
+  post '/complete_task' do
+    complete_task
+    redirect '/all_tasks'
+  end
+
   get '/add_client' do
-    @client_list = @@client_manager
+    @clients = ClientModel.all(:order => [:name.asc]) 
     erb :add_client
   end
 
   post '/add_client' do
     make_new_client
-    @client_list = @@client_manager
-    erb :add_client
+    @clients = ClientModel.all
+    redirect '/'
   end
 
   get '/add_task' do
-    @client_list = @@client_manager
-    @clients = ClientModel.all
+    @clients = ClientModel.all(:order => [:name.asc]) 
     erb :add_task
   end
   
   post '/add_task' do
-    @client_list = @@client_manager
-    @clients = ClientModel.all
+    @clients = ClientModel.all(:order => [:name.asc]) 
     add_task
     erb :all_tasks
   end
 
-  def initialize_client_manager
-    @@client_manager ||= ClientManager.new
-  end
-
   def make_new_client
-    @@client_manager.new_client(params[:new_client].to_s)
     ClientModel.create(:name => params[:new_client].to_s)
   end
 
   def add_task
-    @@client_manager.clients.each do |client|
-      client.add_task(params[:task].to_s, params[:priority].to_i) if client.name == params[:new_client].to_s
-    end
-    @clients = ClientModel.all
     client = ClientModel.get(params[:client_id])
     task = TaskModel.create(:description => params[:task], :priority => params[:priority], :client_model => client)
     task.save
+  end
+
+  def complete_task
+    @clients = ClientModel.all
+    client = ClientModel.get(params["client_id"].to_i)
+    task = client.task_models.get(params["task_id"].to_i)
+    task.update(:completed => true)
+    task.update(:priority => 0)
   end
 end

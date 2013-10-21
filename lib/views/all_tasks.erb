@@ -9,7 +9,7 @@
     <h1>
       Cluster: View all tasks
   </h1>
-    <%  if @client_list.clients != [] %>
+    <%  if @clients != nil %>
       <table border=".25">
         <tr>
           <td><b>Client</b></td>
@@ -17,16 +17,18 @@
           <td><b>Completed?</b></td>
           <td><b>Click to Complete</b></td>
         </tr>
-        <% @client_list.clients.each do |client| %>
-          <% client.sort_tasks %>
-          <% client.tasks.each do |task| %>
+        <% @clients.each do |client| %>
+          <% client.task_models.all(:order => [:priority.desc]).each do |task| %>
             <tr>
-              <td> <%= "#{client.name.to_s}" %> </td>
+              <td> <%= "#{client.name}" %> </td>
               <td> <%= "#{task.description}" %> </td>
               <td> <%= "#{task.completed}" %> </td>
               <td> 
-                <form action="/all_tasks" method="POST">
-                  <input type="submit" value="<%= client.name %>" name="<%= task.description.underscore %>">
+                <form action="/complete_task" method="POST" onClick="return confirm('Are you sure this is complete?')">
+                  <input type="hidden" name="client_id" value="<%= client.id %>">
+                  <input type="hidden" name="task_id" value="<%= task.id %>">
+                  <input type="submit" value="Complete">
+                </form>
               </td>
             </tr>
           <% end %>

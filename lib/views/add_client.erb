@@ -15,14 +15,14 @@
         <input type="submit" value="Submit">
       </form>
     </p>
-    <%  if @client_list.clients != [] %>
+    <%  if @clients %>
       <table border=".25">
         <tr>
           <td><b>Clients</b></td>
         </tr>
-        <% @client_list.clients.each do |client| %>
+        <% @clients.each do |client| %>
             <tr>
-              <td> <%= "#{client.name.to_s}" %> </td>
+              <td> <%= "#{client.name}" %> </td>
             </tr>
         <% end %>
       </table>
