@@ -31,17 +31,17 @@ describe Sinatra_Cluster do
 
   describe 'completing a task' do
     it 'completes a task' do
-      ClientModel.create(:name => "test task completion")
-      TaskModel.create(:description => "test task completion", :client_model => ClientModel.first(:name => "test task completion"), :priority => 3)
+      test_client = ClientModel.create(:name => "test task completion")
+      TaskModel.create(:description => "test task completion", :client_model => test_client, :priority => 3)
       client_id = ClientModel.first(:name => "test task completion").id
       task_id = TaskModel.first(:description => "test task completion").id
-
       post '/complete_task', params={:client_id => client_id, :task_id => task_id}
-      TaskModel.get(task_id).completed.should be_true
 
+      TaskModel.get(task_id).completed.should be_true
       last_response.status.should == 302
-      TaskModel.first(:description => "test task completion").destroy
-      ClientModel.first(:name => "test task completion").destroy
+
+      TaskModel.all(:description => "test task completion").destroy
+      ClientModel.all(:name => "test task completion").destroy
     end
   end
 
@@ -72,8 +72,8 @@ describe Sinatra_Cluster do
       last_response.status.should == 200
       TaskModel.first(:description => "test adding a task").should_not be_nil
 
-      TaskModel.first(:description => "test adding a task").destroy
-      ClientModel.first(:name => "test adding a task").destroy
+      TaskModel.all(:description => "test adding a task").destroy
+      ClientModel.all(:name => "test adding a task").destroy
     end
   end
 end
