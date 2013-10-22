@@ -23,11 +23,6 @@ class Sinatra_Cluster < Sinatra::Base
     erb :home
   end
 
-  post '/' do
-    @clients = ClientModel.all
-    erb :home    
-  end
-
   get '/all_tasks' do
     @clients = ClientModel.all(:order => [:name.asc]) 
     @clients.each do |client|

@@ -22,13 +22,6 @@ describe Sinatra_Cluster do
     end
   end
 
-  describe 'posting data to cluster' do
-    it 'retrieves a 200 response' do
-      post '/'
-      last_response.status.should == 200
-    end
-  end
-
   describe 'viewing all tasks' do
     it 'retrieves a 200 response' do
       get '/all_tasks'
@@ -64,16 +57,23 @@ describe Sinatra_Cluster do
       post '/add_client', params={:new_client => "Test Client from sinatra_cluster_spec.rb"}
 
       ClientModel.first(:name => "Test Client from sinatra_cluster_spec.rb").should_not be_nil
-
       last_response.status.should == 302
+
       ClientModel.all(:name => "Test Client from sinatra_cluster_spec.rb").destroy
     end
   end
 
   describe 'adding a task' do
     it 'retrieves a 200 response' do
-      post '/add_task'
+      ClientModel.create(:name => "test adding a task")
+      client_id = ClientModel.first(:name => "test adding a task").id
+      post '/add_task', params={:client_id => client_id, :task => "test adding a task", :priority => 3}
+
       last_response.status.should == 200
+      TaskModel.first(:description => "test adding a task").should_not be_nil
+
+      TaskModel.first(:description => "test adding a task").destroy
+      ClientModel.first(:name => "test adding a task").destroy
     end
   end
 end
