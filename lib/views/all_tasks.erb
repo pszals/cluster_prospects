@@ -9,7 +9,7 @@
     <h1>
       Cluster: View all tasks
   </h1>
-    <%  if @clients != nil %>
+    <%  if @clients != [] %>
       <table border=".25">
         <tr>
           <td><b>Client</b></td>
@@ -34,6 +34,8 @@
           <% end %>
         <% end %>
       </table>
+    <% else %>
+      <p>There are no clients in the database.</p>
     <% end %>
     <p><a href="/">View top tasks</a></p>
     <p><a href="/add_client">Add client</a></p>
