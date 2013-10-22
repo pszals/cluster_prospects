@@ -6,10 +6,7 @@ require 'data_mapper'
 require_relative 'client_model'
 require_relative 'task_model'
 
-require_relative 'client_manager'
 
-Bundler.require(:default)
-Bundler.setup
 
 DataMapper.setup(:default, "postgres://pszalwinski: @localhost/learning_postgres")
 DataMapper.finalize

@@ -10,7 +10,7 @@
       Cluster: Add a task
   </h1>
     <p>
-      <%  if @clients %>
+      <%  if @clients != [] %>
     <form action="/add_task" method="POST">
       <%  if @clients %>
         <select name="client_id">
