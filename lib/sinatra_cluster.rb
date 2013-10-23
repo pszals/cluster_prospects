@@ -8,7 +8,7 @@ require_relative 'task_model'
 
 
 
-DataMapper.setup(:default, ENV["DATABASE_URL"] || "postgres://pszalwinski: @localhost/learning_postgres")
+DataMapper.setup(:default, ENV["HEROKU_POSTGRESQL_ROSE_URL"] || "postgres://pszalwinski: @localhost/learning_postgres")
 DataMapper.finalize
 DataMapper.auto_upgrade!
 
