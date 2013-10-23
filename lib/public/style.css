@@ -1,0 +1,13 @@
+td, th {
+  padding: 5px;
+}
+
+#content {
+  width: 95%;
+  margin: 0 auto;
+}
+
+#table_third {
+  width: 30%
+  margin: 0 auto;
+}

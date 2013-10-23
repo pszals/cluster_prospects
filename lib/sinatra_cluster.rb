@@ -35,10 +35,20 @@ class Sinatra_Cluster < Sinatra::Base
     complete_task
     redirect '/all_tasks'
   end
+  
+  post '/' do
+    complete_task
+    redirect '/'
+  end
 
   get '/add_client' do
     @clients = ClientModel.all(:order => [:name.asc]) 
     erb :add_client
+  end
+
+  get '/all_clients' do
+    @clients = ClientModel.all(:order => [:name.asc]) 
+    erb :all_clients
   end
 
   post '/add_client' do

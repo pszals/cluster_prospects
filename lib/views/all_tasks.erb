@@ -1,16 +1,52 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="cluster.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> 
+    <link href="style.css" media="screen" rel="stylesheet" type="text/css">
   </head>
-  
-  <br>
 
   <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Cluster</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/all_clients">Clients</a></li>
+            <li><a href="/add_client">Add Client</a></li>
+            <li><a href="/add_task">Add Task</a></li>
+            <li class="active"><a href="/all_tasks">All Tasks</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container">
+      <div class="starter-template">
+        <p class="lead">Track clients and client-related tasks.</p>
+      </div>
+    </div><!-- /.container -->
+  
+    <div id="content">
+
     <h1>
-      Cluster: View all tasks
-  </h1>
+      View all tasks
+    </h1>
+
+  <body>
     <%  if @clients != [] %>
-      <table border=".25">
+      <table class="table table-striped">
         <tr>
           <td><b>Client</b></td>
           <td><b>Task</b></td>
@@ -37,8 +73,6 @@
     <% else %>
       <p>There are no clients in the database.</p>
     <% end %>
-    <p><a href="/">View top tasks</a></p>
-    <p><a href="/add_client">Add client</a></p>
-    <p><a href="/add_task">Add a task</a></p>
+  </div>
   </body>
 </html>

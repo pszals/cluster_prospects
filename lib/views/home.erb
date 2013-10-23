@@ -1,25 +1,70 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="cluster.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> 
+    <link href="style.css" media="screen" rel="stylesheet" type="text/css">
   </head>
-  
-  <br>
 
   <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Cluster</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/all_clients">Clients</a></li>
+            <li><a href="/add_client">Add Client</a></li>
+            <li><a href="/add_task">Add Task</a></li>
+            <li><a href="/all_tasks">All Tasks</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container">
+      <div class="starter-template">
+        <p class="lead">Track clients and client-related tasks.</p>
+      </div>
+    </div><!-- /.container -->
+
+    <div id="content">
     <h1>
-      Cluster: Track clients and tasks
+      Top tasks
     </h1>
+
     <%  if @clients != [] %>
-      <table border=".25">
+      <table class="table table-striped">
         <tr>
           <td><b>Client</b></td>
           <td><b>Top Task</b></td>
+          <td><b>Click to Complete</b></td>
         </tr>
         <% @clients.each do |client| %>
           <tr>
             <td> <%= "#{client.name}" %> </td>
             <% if client.task_models != [] %>
             <td> <%= "#{client.task_models.all(:order => [:priority.asc]).last.description}" %> </td>
+            <td> 
+              <form action="/" method="POST" onClick="return confirm('Are you sure this is complete?')">
+                <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
+                <input type="hidden" name="task_id" value="<%= "#{client.task_models.all(:order => [:priority.asc]).last.id}" %>">
+                <input type="submit" value="Complete">
+              </form>
+            </td>
+          <% else %>
+            <td></td>
+            <td></td>
           </tr>
         <% end %>
         <% end %>
@@ -27,8 +72,6 @@
     <% else %>
       <p>There are no clients in the database.</p>
     <% end %>
-    <p><a href="/all_tasks">View all tasks</a></p>
-    <p><a href="/add_client">Add client</a></p>
-    <p><a href="/add_task">Add a task</a></p>
+  </div>
   </body>
 </html>
