@@ -9,4 +9,5 @@ group :test do
   gem 'rspec'
   gem 'rack-test'
   gem 'pry'
+  gem 'pg'
 end
