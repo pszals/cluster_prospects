@@ -68,6 +68,14 @@ class Sinatra_Cluster < Sinatra::Base
     erb :all_tasks
   end
 
+  get '/:id' do 
+    @clients = [ClientModel.get(params[:id])]
+    @clients.each do |client|
+      client.task_models.all(:order => [:priority.desc]) if client.task_models != []
+    end
+    erb :all_tasks
+  end
+
   def make_new_client
     ClientModel.create(:name => params[:new_client].to_s)
   end

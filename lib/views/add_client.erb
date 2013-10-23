@@ -38,23 +38,21 @@
       </div>
     </div><!-- /.container -->
 
-    <div id="content">
 
-    <h1>
+    <h1 class="header">
       Add a client
     </h1>
 
+    <div class="belowHeader">
       <form action="/add_client" method="POST">
         <fieldset>
-          <label>Enter a client name:</label>
+          <input style="overflow: hidden" size="50" type="text" name="new_client" class="form-control" placeholder="Enter a client">
         </fieldset>
-        <input type="text" name="new_client">
         <input type="submit" value="Submit">
       </form>
-      <br>
+
     <%  if @clients %>
-      <div id="table_third">
-      <table class="table table-striped">
+      <table class="table table-striped" id="table">
         <tr>
           <td><b>Clients</b></td>
         </tr>
@@ -64,7 +62,6 @@
             </tr>
         <% end %>
       </table>
-    </div>
     <% end %>
   </div>
   </body>

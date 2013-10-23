@@ -40,14 +40,15 @@
       </div>
     </div><!-- /.container -->
 
-    <div id="content">
 
-    <h1>
+    <h1 class="header">
       Add a task
     </h1>
 
+    <div class="belowHeader">
+
     <%  if @clients != [] %>
-      <form action="/add_task" method="POST">
+      <form action="/add_task" method="POST" class="forms">
         <%  if @clients %>
           <fieldset>
             <label>Client Name:</label>

@@ -38,15 +38,15 @@
       </div>
     </div><!-- /.container -->
   
-    <div id="content">
 
-    <h1>
-      View all tasks
+    <h1 class="header">
+      View tasks
     </h1>
+    <div id="content">
 
   <body>
     <%  if @clients != [] %>
-      <table class="table table-striped">
+      <table class="table table-striped" id="clientTable">
         <tr>
           <td><b>Client</b></td>
           <td><b>Task</b></td>
@@ -71,7 +71,7 @@
         <% end %>
       </table>
     <% else %>
-      <p>There are no clients in the database.</p>
+      <p id="clientTable">There are no clients in the database.</p>
     <% end %>
   </div>
   </body>
