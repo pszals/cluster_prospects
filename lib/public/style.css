@@ -2,6 +2,20 @@ td, th {
   padding: 5px;
 }
 
+table tr td a {
+  display:block;
+  height:100%;
+  width:100%;
+}
+
+.belowHeader {
+  width: 95%;
+  margin: 0 auto;
+  position:relative;
+  top:50px;
+  margin-top: 20px;
+}
+
 #content {
   width: 95%;
   margin: 0 auto;
@@ -16,6 +30,10 @@ td, th {
   position:relative;
 }
 
+#smallTable {
+  width: 30%;
+}
+
 #table {
   position:absolute;
   top: 100px;
@@ -23,7 +41,6 @@ td, th {
 
 #clientTable {
   position:absolute;
-  top: 150px;
 }
 
 #allClients {
@@ -34,14 +51,35 @@ td, th {
 }
  
 .form-control {
+  display: inline-block;
   width: 20%;
-  margin-top:20px;
 }
 
 .forms {
   margin-left:20px;
   margin-top:20px;
 }
+
+.column {
+  margin-bottom: 2em;
+}
+
+#client-entry {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.button {
+  -webkit-appearance: none;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  background: #333;
+  border: none;
+  color: #fff;
+  padding: 0.5em;
+}
+
 
 .header {
   width: 95%;
@@ -51,10 +89,3 @@ td, th {
   margin: 0 auto;
 }
 
-.belowHeader {
-  width: 95%;
-  position:relative;
-  top:50px;
-  margin-top: 350px;
-  margin: 0 auto;
-}

@@ -48,7 +48,7 @@
     <div class="belowHeader">
 
     <%  if @clients != [] %>
-      <form action="/add_task" method="POST" class="forms">
+      <form action="/add_task" method="POST">
         <%  if @clients %>
           <fieldset>
             <label>Client Name:</label>
@@ -59,22 +59,23 @@
             </select>
           </fieldset>
         <% end %>
-
-        <fieldset>
-          <input size="50" type="text" name="task" class="form-control" placeholder="Enter a task">
-        </fieldset>
-        <fieldset>
+        <fieldset class="column">
           <label>Task Priority:</label>
           <select name="priority">
           <option value="1">Low</option>
           <option value="2">Med</option>
           <option value="3">High</option>
+          </select>
         </fieldset>
-        <input type="submit" value="Submit">
-      </form>
+
+        <fieldset class="column">
+          <input id="client-entry" size="50" type="text" name="task" class="form-control" placeholder="Enter a task">
+          <input type="submit" value="Submit" class="button">
+        </fieldset>
     <% else %>
       You must <a href="/add_client">add a client</a> before you can add a task.
     <% end %>
+      </form>
   </div>
   </body>
 </html>

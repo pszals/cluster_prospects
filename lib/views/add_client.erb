@@ -44,15 +44,17 @@
     </h1>
 
     <div class="belowHeader">
-      <form action="/add_client" method="POST">
-        <fieldset>
-          <input style="overflow: hidden" size="50" type="text" name="new_client" class="form-control" placeholder="Enter a client">
-        </fieldset>
-        <input type="submit" value="Submit">
-      </form>
+      <div class="column">
+        <form action="/add_client" method="POST">
+          <fieldset>
+            <input id="client-entry" size="50" type="text" name="new_client" class="form-control" placeholder="Enter a client">
+            <input type="submit" value="Submit" class="button">
+          </fieldset>
+        </form>
+      </div>
 
     <%  if @clients %>
-      <table class="table table-striped" id="table">
+      <table class="table table-striped" id="smallTable">
         <tr>
           <td><b>Clients</b></td>
         </tr>

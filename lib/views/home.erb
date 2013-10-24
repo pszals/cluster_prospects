@@ -41,10 +41,10 @@
     <h1 class="header">
       Top tasks
     </h1>
-    <div id="content">
 
+    <div class="belowHeader">
     <%  if @clients != [] %>
-      <table class="table table-striped" id="clientTable">
+      <table class="table table-striped">
         <tr>
           <td><b>Client</b></td>
           <td><b>Top Task</b></td>
@@ -53,13 +53,13 @@
         <% @clients.each do |client| %>
           <tr>
             <td><a href="/<%= client.id %>"><%= "#{client.name}" %></a></td>
-            <% if client.task_models != [] %>
+            <% if client.task_models != [] and client.task_models.all(:order => [:priority.asc]).last.priority != 0 %>
             <td> <%= "#{client.task_models.all(:order => [:priority.asc]).last.description}" %> </td>
             <td> 
               <form action="/" method="POST" onClick="return confirm('Are you sure this is complete?')">
                 <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
                 <input type="hidden" name="task_id" value="<%= "#{client.task_models.all(:order => [:priority.asc]).last.id}" %>">
-                <input type="submit" value="Complete">
+                <input type="submit" value="Complete" class="button">
               </form>
             </td>
           <% else %>

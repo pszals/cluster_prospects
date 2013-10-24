@@ -42,7 +42,8 @@
     <h1 class="header">
       View tasks
     </h1>
-    <div id="content">
+
+    <div class="belowHeader">
 
   <body>
     <%  if @clients != [] %>
@@ -63,7 +64,7 @@
                 <form action="/complete_task" method="POST" onClick="return confirm('Are you sure this is complete?')">
                   <input type="hidden" name="client_id" value="<%= client.id %>">
                   <input type="hidden" name="task_id" value="<%= task.id %>">
-                  <input type="submit" value="Complete">
+                  <input type="submit" value="Complete" class="button">
                 </form>
               </td>
             </tr>

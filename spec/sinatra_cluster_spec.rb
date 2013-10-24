@@ -49,6 +49,7 @@ describe Sinatra_Cluster do
     it 'retrieves a 200 response' do
       get '/add_client'
       last_response.status.should == 200
+      clients.should_receive(all)
     end
   end
 

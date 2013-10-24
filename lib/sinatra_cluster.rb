@@ -1,5 +1,3 @@
-$LOAD_PATH.unshift File.expand_path('./', __FILE__)
-
 require 'sinatra'
 require 'bundler'
 require 'data_mapper'
@@ -41,6 +39,56 @@ class Sinatra_Cluster < Sinatra::Base
     redirect '/'
   end
 
+  #@presenter = ClientPresenter.new
+
+  get '/add_client' do
+    @clients = ClientModel.all(:order => [:name.asc]) 
+    erb :add_client
+  end
+
+  #def clients
+  #  @client_service ||= ClientService.new(Repo.for(:clients, ENV['RACK_ENV']))
+  #end
+
+  #module Repo
+  #  module DataMapper
+  #    class Client
+  #      def all
+  #        ClientModel.all
+  #      end
+  #    end
+  #  end
+  #end
+
+  #module Repo
+  #  module Riak
+  #    class Client
+  #      def all
+  #        Riak.all
+  #      end
+  #    end
+  #  end
+  #end
+
+  #module Repo
+  #  module InMemory
+  #    class Client
+  #      def all(clients=nil)
+  #      end
+  #    end
+  #  end
+  #end
+
+  #class ClientService
+  #  def initialize(db)
+  #    @db = db
+  #  end
+
+  #  def all
+  #    @db.all
+  #  end
+  #end
+
   get '/add_client' do
     @clients = ClientModel.all(:order => [:name.asc]) 
     erb :add_client
@@ -65,7 +113,7 @@ class Sinatra_Cluster < Sinatra::Base
   post '/add_task' do
     @clients = ClientModel.all(:order => [:name.asc]) 
     add_task
-    erb :all_tasks
+    erb :home
   end
 
   get '/:id' do 
