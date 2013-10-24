@@ -4,13 +4,17 @@ require 'data_mapper'
 require_relative 'client_model'
 require_relative 'task_model'
 
-
-
 DataMapper.setup(:default, ENV["HEROKU_POSTGRESQL_ROSE_URL"] || "postgres://pszalwinski: @localhost/learning_postgres")
 DataMapper.finalize
 DataMapper.auto_upgrade!
 
+
 class Sinatra_Cluster < Sinatra::Base
+
+  use Rack::Auth::Basic do |username, password|
+    username == 'margaret' && password == 't4sktr4ck3r'
+  end
+
   attr_reader :params, :client_manager
 
   get '/' do
@@ -38,56 +42,6 @@ class Sinatra_Cluster < Sinatra::Base
     complete_task
     redirect '/'
   end
-
-  #@presenter = ClientPresenter.new
-
-  get '/add_client' do
-    @clients = ClientModel.all(:order => [:name.asc]) 
-    erb :add_client
-  end
-
-  #def clients
-  #  @client_service ||= ClientService.new(Repo.for(:clients, ENV['RACK_ENV']))
-  #end
-
-  #module Repo
-  #  module DataMapper
-  #    class Client
-  #      def all
-  #        ClientModel.all
-  #      end
-  #    end
-  #  end
-  #end
-
-  #module Repo
-  #  module Riak
-  #    class Client
-  #      def all
-  #        Riak.all
-  #      end
-  #    end
-  #  end
-  #end
-
-  #module Repo
-  #  module InMemory
-  #    class Client
-  #      def all(clients=nil)
-  #      end
-  #    end
-  #  end
-  #end
-
-  #class ClientService
-  #  def initialize(db)
-  #    @db = db
-  #  end
-
-  #  def all
-  #    @db.all
-  #  end
-  #end
 
   get '/add_client' do
     @clients = ClientModel.all(:order => [:name.asc]) 
@@ -142,3 +96,46 @@ class Sinatra_Cluster < Sinatra::Base
     task.update(:priority => 0)
   end
 end
+  #def clients
+  #  @client_service ||= ClientService.new(Repo.for(:clients, ENV['RACK_ENV']))
+  #end
+
+  #module Repo
+  #  module DataMapper
+  #    class Client
+  #      def all
+  #        ClientModel.all
+  #      end
+  #    end
+  #  end
+  #end
+
+  #module Repo
+  #  module Riak
+  #    class Client
+  #      def all
+  #        Riak.all
+  #      end
+  #    end
+  #  end
+  #end
+
+  #module Repo
+  #  module InMemory
+  #    class Client
+  #      def all(clients=nil)
+  #      end
+  #    end
+  #  end
+  #end
+
+  #class ClientService
+  #  def initialize(db)
+  #    @db = db
+  #  end
+
+  #  def all
+  #    @db.all
+  #  end
+  #end
+  #@presenter = ClientPresenter.new
