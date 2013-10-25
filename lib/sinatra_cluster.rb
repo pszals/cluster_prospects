@@ -134,7 +134,7 @@ end
   #    @db = db
   #  end
 
-  #  def all
+  #  def all(sorted=nil)
   #    @db.all
   #  end
   #end

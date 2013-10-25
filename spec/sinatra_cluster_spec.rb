@@ -13,7 +13,10 @@ def app
 end
 
 describe Sinatra_Cluster do
-   let(:cluster) { Sinatra_Cluster.new }
+  let(:cluster) { Sinatra_Cluster.new }
+  before(:each) do
+    authorize 'margaret', 't4sktr4ck3r'
+  end
 
   describe 'cluster home page' do
     it 'retrieves a 200 response' do
@@ -49,7 +52,6 @@ describe Sinatra_Cluster do
     it 'retrieves a 200 response' do
       get '/add_client'
       last_response.status.should == 200
-      clients.should_receive(all)
     end
   end
 
