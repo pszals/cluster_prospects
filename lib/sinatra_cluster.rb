@@ -4,9 +4,9 @@ require 'data_mapper'
 require_relative 'client_model'
 require_relative 'task_model'
 
-DataMapper.setup(:default, ENV["HEROKU_POSTGRESQL_ROSE_URL"] || "postgres://pszalwinski: @localhost/learning_postgres")
-DataMapper.finalize
+DataMapper.setup(:default, ENV["HEROKU_POSTGRESQL_ROSE_URL"] || "postgres://pszalwinski: @localhost/cluster")
 DataMapper.auto_upgrade!
+DataMapper.finalize
 
 
 class Sinatra_Cluster < Sinatra::Base

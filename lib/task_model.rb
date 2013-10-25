@@ -2,7 +2,7 @@ class TaskModel
   include DataMapper::Resource
   property :id, Serial
   property :priority, Integer
-  property :description, String
+  property :description, Text
   property :completed, Boolean, :default => false
 
   property :created_at, DateTime
