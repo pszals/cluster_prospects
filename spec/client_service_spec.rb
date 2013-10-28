@@ -34,4 +34,9 @@ describe ClientService do
     mock_db.should_receive(:each)
     client_service.tasks_by_descending_priority
   end
+
+  it 'gets client by id' do
+    mock_db.should_receive(:get)
+    client_service.get_by_id(3)
+  end
 end

@@ -4,7 +4,7 @@ require 'data_mapper'
 require_relative '../lib/client_model'
 require_relative '../lib/task_model'
 
-DataMapper.setup(:default, "postgres://pszalwinski: @localhost/learning_postgres")
+DataMapper.setup(:default, "postgres://pszalwinski: @localhost/cluster")
 DataMapper.finalize
 DataMapper.auto_upgrade!
 

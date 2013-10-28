@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'bundler'
 require 'data_mapper'
+require_relative 'client_service'
 require_relative 'client_model'
 require_relative 'task_model'
 
@@ -10,26 +11,21 @@ DataMapper.finalize
 
 
 class Sinatra_Cluster < Sinatra::Base
+  attr_reader :params, :client_manager
 
   use Rack::Auth::Basic do |username, password|
     username == 'margaret' && password == 't4sktr4ck3r'
   end
 
-  attr_reader :params, :client_manager
-
   get '/' do
-    @clients = ClientModel.all(:order => [:name.asc]) 
-    @clients.each do |client|
-      client.task_models.all(:order => [:priority.asc]) if client.task_models != []
-    end
+    @clients = client_models.ascending_name
+    client_models.tasks_by_descending_priority
     erb :home
   end
 
   get '/all_tasks' do
-    @clients = ClientModel.all(:order => [:name.asc]) 
-    @clients.each do |client|
-      client.task_models.all(:order => [:priority.desc]) if client.task_models != []
-    end
+    @clients = client_models.ascending_name
+    client_models.tasks_by_descending_priority
     erb :all_tasks
   end
 
@@ -44,42 +40,44 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   get '/add_client' do
-    @clients = ClientModel.all(:order => [:name.asc]) 
+    @clients = client_models.ascending_name
     erb :add_client
   end
 
   get '/all_clients' do
-    @clients = ClientModel.all(:order => [:name.asc]) 
+    @clients = client_models.ascending_name
     erb :all_clients
   end
 
   post '/add_client' do
     make_new_client
-    @clients = ClientModel.all
+    @clients = client_models.all
     redirect '/'
   end
 
   get '/add_task' do
-    @clients = ClientModel.all(:order => [:name.asc]) 
+    @clients = client_models.ascending_name
     erb :add_task
   end
   
   post '/add_task' do
-    @clients = ClientModel.all(:order => [:name.asc]) 
+    @clients = client_models.ascending_name
     add_task
     erb :home
   end
 
   get '/:id' do 
-    @clients = [ClientModel.get(params[:id])]
-    @clients.each do |client|
-      client.task_models.all(:order => [:priority.desc]) if client.task_models != []
-    end
+    @clients = [client_models.get_by_id(params[:id])]
+    client_models.tasks_by_descending_priority
     erb :all_tasks
   end
 
+  def client_models
+    @client_models ||= ClientService.new(ClientModel)
+  end
+
   def make_new_client
-    ClientModel.create(:name => params[:new_client].to_s)
+    client_models.create(:name => params[:new_client].to_s)
   end
 
   def add_task
@@ -96,46 +94,5 @@ class Sinatra_Cluster < Sinatra::Base
     task.update(:priority => 0)
   end
 end
-  #def clients
-  #  @client_service ||= ClientService.new(Repo.for(:clients, ENV['RACK_ENV']))
-  #end
 
-  #module Repo
-  #  module DataMapper
-  #    class Client
-  #      def all
-  #        ClientModel.all
-  #      end
-  #    end
-  #  end
-  #end
-
-  #module Repo
-  #  module Riak
-  #    class Client
-  #      def all
-  #        Riak.all
-  #      end
-  #    end
-  #  end
-  #end
-
-  #module Repo
-  #  module InMemory
-  #    class Client
-  #      def all(clients=nil)
-  #      end
-  #    end
-  #  end
-  #end
-
-  #class ClientService
-  #  def initialize(db)
-  #    @db = db
-  #  end
-
-  #  def all(sorted=nil)
-  #    @db.all
-  #  end
-  #end
   #@presenter = ClientPresenter.new

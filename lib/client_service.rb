@@ -30,4 +30,8 @@ class ClientService
       client.task_models.all(:order => [:priority.desc]) if client.task_models != []
     end
   end
+
+  def get_by_id(id)
+    @db.get(id)
+  end
 end
