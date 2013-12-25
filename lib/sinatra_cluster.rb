@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'bundler'
 require 'data_mapper'
+
 require_relative 'client_service'
 require_relative 'client_model'
 require_relative 'task_model'

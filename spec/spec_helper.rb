@@ -1,4 +1,5 @@
 require 'bundler'
+
 Bundler.require(:test)
 
 RSpec.configure do |conf|
