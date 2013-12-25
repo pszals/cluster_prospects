@@ -53,7 +53,7 @@
         <% @clients.each do |client| %>
           <tr>
             <td><a href="/<%= client.id %>"><%= "#{client.name}" %></a></td>
-            <% if client.task_models != [] and client.task_models.all(:order => [:priority.asc]).last.priority != 0 %>
+            <% if client_active?(client) %>
             <td> <%= "#{client.task_models.all(:order => [:priority.asc]).last.description}" %> </td>
             <td> 
               <form action="/" method="POST" onClick="return confirm('Are you sure this is complete?')">

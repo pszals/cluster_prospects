@@ -81,6 +81,14 @@ class Sinatra_Cluster < Sinatra::Base
     client_models.create(:name => params[:new_client].to_s)
   end
 
+  def client_active?(client)
+    if client.task_models != [] and client.task_models.all(:order => [:priority.asc]).last.priority != 0
+      true
+    else
+      false
+    end
+  end
+
   def add_task
     client = ClientModel.get(params[:client_id])
     task = TaskModel.create(:description => params[:task], :priority => params[:priority], :client_model => client)
@@ -95,5 +103,3 @@ class Sinatra_Cluster < Sinatra::Base
     task.update(:priority => 0)
   end
 end
-
-  #@presenter = ClientPresenter.new
