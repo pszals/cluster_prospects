@@ -78,7 +78,7 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   def make_new_client
-    client_models.create(:name => params[:new_client].to_s)
+    client_models.create(:name => params[:new_client].to_s, :status => params[:status].to_s)
   end
 
   def client_active?(client)
