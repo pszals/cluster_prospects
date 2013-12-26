@@ -64,6 +64,12 @@ describe Sinatra_Cluster do
 
       ClientModel.all(:name => "Test Client from sinatra_cluster_spec.rb").destroy
     end
+
+    it 'adds client status' do
+      post '/add_client', params={:new_client => "Test Client", :status => "prospect"}
+
+      ClientModel.first(:status => "prospect").should_not be nil
+    end
   end
 
   describe 'adding a task' do

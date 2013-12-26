@@ -47,35 +47,35 @@
 
     <div class="belowHeader">
 
-    <%  if @clients != [] %>
-      <form action="/add_task" method="POST">
-        <%  if @clients %>
-          <fieldset>
-            <label>Client Name:</label>
-            <select name="client_id">
-              <% @clients.each do |client|  %>
-                <option value="<%= client.id  %>"> <%= client.name  %> </option>
-              <% end %>
+      <%  if @clients != [] %>
+        <form action="/add_task" method="POST">
+          <%  if @clients %>
+            <fieldset>
+              <label>Client Name:</label>
+              <select name="client_id">
+                <% @clients.each do |client|  %>
+                  <option value="<%= client.id  %>"> <%= client.name  %> </option>
+                <% end %>
+              </select>
+            </fieldset>
+          <% end %>
+          <fieldset class="column">
+            <label>Task Priority:</label>
+            <select name="priority">
+              <option value="1">Low</option>
+              <option value="2">Med</option>
+              <option value="3">High</option>
             </select>
           </fieldset>
-        <% end %>
-        <fieldset class="column">
-          <label>Task Priority:</label>
-          <select name="priority">
-          <option value="1">Low</option>
-          <option value="2">Med</option>
-          <option value="3">High</option>
-          </select>
-        </fieldset>
 
-        <fieldset class="column">
-          <input id="client-entry" size="50" type="text" name="task" class="form-control" placeholder="Enter a task">
-          <input type="submit" value="Submit" class="button">
-        </fieldset>
-    <% else %>
-      You must <a href="/add_client">add a client</a> before you can add a task.
-    <% end %>
+          <fieldset class="column">
+            <input id="client-entry" size="50" type="text" name="task" class="form-control" placeholder="Enter a task">
+            <input type="submit" value="Submit" class="button">
+          </fieldset>
+        <% else %>
+          You must <a href="/add_client">add a client</a> before you can add a task.
+        <% end %>
       </form>
-  </div>
+    </div>
   </body>
 </html>
