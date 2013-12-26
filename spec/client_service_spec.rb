@@ -39,4 +39,9 @@ describe ClientService do
     mock_db.should_receive(:get)
     client_service.get_by_id(3)
   end
+
+  it 'gets prospective clients' do
+    mock_db.should_receive(:get).with(:status => "prospect")
+    client_service.get_prospects
+  end
 end

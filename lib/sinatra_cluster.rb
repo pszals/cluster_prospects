@@ -50,6 +50,11 @@ class Sinatra_Cluster < Sinatra::Base
     erb :all_clients
   end
 
+  get '/prospects' do
+    @clients = client_models.get_prospects
+    erb :prospects
+  end
+
   post '/add_client' do
     make_new_client
     @clients = client_models.all

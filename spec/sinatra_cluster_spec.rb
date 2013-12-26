@@ -55,6 +55,13 @@ describe Sinatra_Cluster do
     end
   end
 
+  describe 'viewing all prospects' do
+    it 'retrieves a 200 response' do
+      get '/prospects'
+      last_response.status.should == 200
+    end
+  end
+
   describe 'adding a client' do
     it 'creates a new client' do
       post '/add_client', params={:new_client => "Test Client from sinatra_cluster_spec.rb"}

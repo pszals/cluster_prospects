@@ -34,4 +34,8 @@ class ClientService
   def get_by_id(id)
     @db.get(id)
   end
+
+  def get_prospects
+    @db.all(:status => "prospect")
+  end
 end

@@ -9,7 +9,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> 
     <link href="style.css" media="screen" rel="stylesheet" type="text/css">
   </head>
-
+  
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -23,7 +23,7 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/all_clients">Clients</a></li>
             <li><a href="/prospects">Prospects</a></li>
             <li><a href="/add_client">Add Client</a></li>
@@ -39,14 +39,25 @@
       </div>
     </div><!-- /.container -->
 
+
     <h1 class="header">
-      Top tasks
+      All prospects
     </h1>
 
-    <%  if @clients != [] %>
-      <%= erb :active_clients %>
-    <% else %>
-      <p id="clientTable">There are no clients in the database.</p>
+    <div class="belowHeader">
+
+    <%  if @clients %>
+      <table class="table table-striped" id="smallTable">
+        <tr>
+          <td><b>Prospects</b></td>
+        </tr>
+        <% @clients.each do |prospect| %>
+            <tr>
+              <td> <%= "#{prospect.name}" %> </td>
+            </tr>
+        <% end %>
+      </table>
     <% end %>
+  </div>
   </body>
 </html>
