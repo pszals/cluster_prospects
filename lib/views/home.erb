@@ -42,36 +42,10 @@
       Top tasks
     </h1>
 
-    <div class="belowHeader">
     <%  if @clients != [] %>
-      <table class="table table-striped">
-        <tr>
-          <td><b>Client</b></td>
-          <td><b>Top Task</b></td>
-          <td><b>Click to Complete</b></td>
-        </tr>
-        <% @clients.each do |client| %>
-          <tr>
-            <td><a href="/<%= client.id %>"><%= "#{client.name}" %></a></td>
-            <% if client_active?(client) %>
-            <td> <%= show_highest_priority_task(client)  %> </td>
-            <td> 
-              <form action="/" method="POST" onClick="return confirm('Are you sure this is complete?')">
-                <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
-                <input type="hidden" name="task_id" value="<%= "#{client.task_models.all(:order => [:priority.asc]).last.id}" %>">
-                <input type="submit" value="Complete" class="button">
-              </form>
-            </td>
-          <% else %>
-            <td></td>
-            <td></td>
-          </tr>
-        <% end %>
-        <% end %>
-      </table>
+      <%= erb :active_clients %>
     <% else %>
       <p id="clientTable">There are no clients in the database.</p>
     <% end %>
-  </div>
   </body>
 </html>
