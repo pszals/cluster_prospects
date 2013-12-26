@@ -69,6 +69,7 @@ describe Sinatra_Cluster do
       post '/add_client', params={:new_client => "Test Client", :status => "prospect"}
 
       ClientModel.first(:status => "prospect").should_not be nil
+      ClientModel.all(:name => "Test Client").destroy
     end
   end
 
