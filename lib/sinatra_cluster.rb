@@ -109,7 +109,7 @@ class Sinatra_Cluster < Sinatra::Base
     client_models.create(:name => params[:new_client].to_s, :status => params[:status].to_s)
   end
 
-  def client_active?(client)
+  def client_has_incomplete_tasks?(client)
     if client.task_models != [] and client.task_models.all(:order => [:priority.asc]).last.priority != 0
       true
     else

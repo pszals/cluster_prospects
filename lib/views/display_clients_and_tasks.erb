@@ -1,0 +1,16 @@
+<% @clients.each do |client| %>
+  <% if client_has_incomplete_tasks?(client) %>
+    <tr>
+      <td><a href="/<%= client.id %>"><%= "#{client.name}" %></a></td>
+      <td><%= client.status %></td>
+      <td> <%= show_highest_priority_task(client)  %> </td>
+      <td> 
+        <form action="/" method="POST" onClick="return confirm('Are you sure this is complete?')">
+          <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
+          <input type="hidden" name="task_id" value="<%= "#{client.task_models.all(:order => [:priority.asc]).last.id}" %>">
+          <input type="submit" value="Complete" class="button">
+        </form>
+      </td>
+    </tr>
+  <% end %>
+<% end %>

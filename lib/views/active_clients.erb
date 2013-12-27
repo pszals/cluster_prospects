@@ -2,24 +2,10 @@
   <table class="table table-striped">
     <tr>
       <td><b>Client</b></td>
+      <td><b>Status</b></td>
       <td><b>Top Task</b></td>
       <td><b>Click to Complete</b></td>
     </tr>
-    <% @clients.each do |client| %>
-      <% if client_active?(client) %>
-        <tr>
-          <td><a href="/<%= client.id %>"><%= "#{client.name}" %></a></td>
-          <td> <%= show_highest_priority_task(client)  %> </td>
-          <td> 
-            <form action="/" method="POST" onClick="return confirm('Are you sure this is complete?')">
-              <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
-              <input type="hidden" name="task_id" value="<%= "#{client.task_models.all(:order => [:priority.asc]).last.id}" %>">
-              <input type="submit" value="Complete" class="button">
-            </form>
-          </td>
-        </tr>
-      <% else %>
-      <% end %>
-    <% end %>
+    <%= erb :display_clients_and_tasks %>
   </table>
 </div>
