@@ -7,7 +7,7 @@
       Top tasks
     </h1>
 
-    <%  if @clients != [] %>
+    <%  if clients_in_database? %>
       <%= erb :'partials/active_clients' %>
     <% else %>
       <p id="clientTable">There are no clients in the database.</p>

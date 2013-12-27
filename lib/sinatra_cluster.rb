@@ -139,4 +139,8 @@ class Sinatra_Cluster < Sinatra::Base
     task.update(:completed => true)
     task.update(:priority => 0)
   end
+
+  def clients_in_database?
+    @clients != []
+  end
 end
