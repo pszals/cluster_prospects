@@ -3,48 +3,39 @@
   <%= erb :head %>
   <body>
     <%= erb :menu_banner %>
-    <div class="container">
-      <div class="starter-template">
-        <p class="lead">Track clients and client-related tasks.</p>
-      </div>
-    </div><!-- /.container -->
-  
-
-    <h1 class="header">
+    <h1 class="belowHeader">
       View tasks
     </h1>
-
     <div class="belowHeader">
-
-  <body>
-    <%  if @clients != [] %>
-      <table class="table table-striped" id="clientTable">
-        <tr>
-          <td><b>Client</b></td>
-          <td><b>Task</b></td>
-          <td><b>Completed?</b></td>
-          <td><b>Click to Complete</b></td>
-        </tr>
-        <% @clients.each do |client| %>
-          <% client.task_models.all(:order => [:priority.desc]).each do |task| %>
+      <body>
+        <%  if @clients != [] %>
+          <table class="table table-striped" id="clientTable">
             <tr>
-              <td> <%= "#{client.name}" %> </td>
-              <td> <%= "#{task.description}" %> </td>
-              <td> <%= "#{task.completed}" %> </td>
-              <td> 
-                <form action="/complete_task" method="POST" onClick="return confirm('Are you sure this is complete?')">
-                  <input type="hidden" name="client_id" value="<%= client.id %>">
-                  <input type="hidden" name="task_id" value="<%= task.id %>">
-                  <input type="submit" value="Complete" class="button">
-                </form>
-              </td>
+              <td><b>Client</b></td>
+              <td><b>Task</b></td>
+              <td><b>Completed?</b></td>
+              <td><b>Click to Complete</b></td>
             </tr>
-          <% end %>
+            <% @clients.each do |client| %>
+              <% client.task_models.all(:order => [:priority.desc]).each do |task| %>
+                <tr>
+                  <td> <%= "#{client.name}" %> </td>
+                  <td> <%= "#{task.description}" %> </td>
+                  <td> <%= "#{task.completed}" %> </td>
+                  <td> 
+                    <form action="/complete_task" method="POST" onClick="return confirm('Are you sure this is complete?')">
+                      <input type="hidden" name="client_id" value="<%= client.id %>">
+                      <input type="hidden" name="task_id" value="<%= task.id %>">
+                      <input type="submit" value="Complete" class="button">
+                    </form>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          </table>
+        <% else %>
+          <p id="clientTable">There are no clients in the database.</p>
         <% end %>
-      </table>
-    <% else %>
-      <p id="clientTable">There are no clients in the database.</p>
-    <% end %>
-  </div>
-  </body>
-</html>
+      </div>
+    </body>
+  </html>

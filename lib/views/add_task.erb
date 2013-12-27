@@ -3,19 +3,11 @@
   <%= erb :head %>
   <body>
     <%= erb :menu_banner %>
-    <div class="container">
-      <div class="starter-template">
-        <p class="lead">Track clients and client-related tasks.</p>
-      </div>
-    </div><!-- /.container -->
-
-
-    <h1 class="header">
+    <h1 class="belowHeader">
       Add a task
     </h1>
 
     <div class="belowHeader">
-
       <%  if @clients != [] %>
         <form action="/add_task" method="POST">
           <%  if @clients %>

@@ -3,14 +3,7 @@
   <%= erb :head %>
   <body>
     <%= erb :menu_banner %>
-    <div class="container">
-      <div class="starter-template">
-        <p class="lead">Track clients and client-related tasks.</p>
-      </div>
-    </div><!-- /.container -->
-
-
-    <h1 class="header">
+    <h1 class="belowHeader">
       Add a client
     </h1>
 
@@ -30,18 +23,18 @@
         </form>
       </div>
 
-    <%  if @clients %>
-      <table class="table table-striped" id="smallTable">
-        <tr>
-          <td><b>Clients</b></td>
-        </tr>
-        <% @clients.each do |client| %>
+      <%  if @clients %>
+        <table class="table table-striped" id="smallTable">
+          <tr>
+            <td><b>Clients</b></td>
+          </tr>
+          <% @clients.each do |client| %>
             <tr>
               <td> <%= "#{client.name}" %> </td>
             </tr>
-        <% end %>
-      </table>
-    <% end %>
-  </div>
+          <% end %>
+        </table>
+      <% end %>
+    </div>
   </body>
 </html>
