@@ -46,18 +46,23 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   get '/all_clients' do
-    @clients = client_models.ascending_name
+    @clients = client_models.get_active_clients
     erb :all_clients
   end
 
   post '/all_clients' do
-    client = ClientModel.get(params["client_id"].to_i)
-    client.update(:status => params[:status])
+    update_client_status
     @clients = client_models.get_active_clients
     erb :all_clients
   end
 
   get '/prospects' do
+    @clients = client_models.get_prospects
+    erb :prospects
+  end
+
+  post '/prospects' do
+    update_client_status
     @clients = client_models.get_prospects
     erb :prospects
   end
@@ -111,8 +116,9 @@ class Sinatra_Cluster < Sinatra::Base
     task.save
   end
 
-  def update_status
-    
+  def update_client_status
+    client = ClientModel.get(params["client_id"].to_i)
+    client.update(:status => params[:status])
   end
 
   def complete_task
