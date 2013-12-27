@@ -36,10 +36,10 @@ class ClientService
   end
 
   def get_prospects
-    @db.all(:status => "prospect")
+    @db.all(:order => [:name.asc], :status => "prospect")
   end
 
   def get_active_clients
-    @db.all(:status => "active")
+    @db.all(:order => [:name.asc], :status => "active") | @db.all(:order => [:name.asc], :status => nil)
   end
 end

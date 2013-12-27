@@ -41,12 +41,13 @@ describe ClientService do
   end
 
   it 'gets prospective clients' do
-    mock_db.should_receive(:all).with(:status => "prospect")
+    mock_db.should_receive(:all).with(:order => [:name.asc], :status => "prospect")
     client_service.get_prospects
   end
 
-  it 'gets prospective clients' do
-    mock_db.should_receive(:all).with(:status => "active")
+  it 'gets active clients' do
+    mock_db.should_receive(:all).with(:order => [:name.asc], :status => "active")
+    mock_db.should_receive(:all).with(:order => [:name.asc], :status => nil)
     client_service.get_active_clients
   end
 end
