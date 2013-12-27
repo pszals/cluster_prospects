@@ -6,9 +6,9 @@
       <td><b>Click to Complete</b></td>
     </tr>
     <% @clients.each do |client| %>
-      <tr>
-        <td><a href="/<%= client.id %>"><%= "#{client.name}" %></a></td>
-        <% if client_active?(client) %>
+      <% if client_active?(client) %>
+        <tr>
+          <td><a href="/<%= client.id %>"><%= "#{client.name}" %></a></td>
           <td> <%= show_highest_priority_task(client)  %> </td>
           <td> 
             <form action="/" method="POST" onClick="return confirm('Are you sure this is complete?')">
@@ -17,10 +17,8 @@
               <input type="submit" value="Complete" class="button">
             </form>
           </td>
-        <% else %>
-          <td></td>
-          <td></td>
         </tr>
+      <% else %>
       <% end %>
     <% end %>
   </table>
