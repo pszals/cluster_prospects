@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-  <%= erb :head %>
+  <%= erb :'partials/head' %>
   <body>
-    <%= erb :menu_banner %>
+    <%= erb :'partials/menu_banner' %>
     <h1 class="belowHeader">
       Add a client
     </h1>
@@ -12,7 +12,7 @@
         <form action="/add_client" method="POST">
           <fieldset>
             <label>Client Status:</label>
-            <%= erb :client_status %>
+            <%= erb :'partials/client_status' %>
             <input id="client-entry" size="50" type="text" name="new_client" class="form-control" placeholder="Enter a client">
             <input type="submit" value="Submit" class="button">
           </fieldset>

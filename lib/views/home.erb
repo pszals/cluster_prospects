@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
-  <%= erb :head %>
-  <%= erb :menu_banner %>
+  <%= erb :'partials/head' %>
+  <%= erb :'partials/menu_banner' %>
   <body>
     <h1 class="belowHeader">
       Top tasks
     </h1>
 
     <%  if @clients != [] %>
-      <%= erb :active_clients %>
+      <%= erb :'partials/active_clients' %>
     <% else %>
       <p id="clientTable">There are no clients in the database.</p>
     <% end %>

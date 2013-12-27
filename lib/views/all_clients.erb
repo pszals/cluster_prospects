@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-  <%= erb :head %>
+  <%= erb :'partials/head' %>
   <body>
-    <%= erb :menu_banner %>
+    <%= erb :'partials/menu_banner' %>
     <h1 class="belowHeader">
       Active Clients
     </h1>
@@ -18,7 +18,7 @@
             <form action="/all_clients" method="POST">
               <tr>
                 <td> <%= "#{client.name}" %> </td>
-                <td> <%= erb :client_status %></td>
+                <td> <%= erb :'partials/client_status' %></td>
                 <td> 
                   <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
                   <input type="submit" value="Change" class="button">
