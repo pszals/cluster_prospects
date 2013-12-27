@@ -10,7 +10,11 @@
     <div class="belowHeader">
       <div class="column">
         <form action="/add_client" method="POST">
-          <%= erb :client_status %>
+          <fieldset>
+            <%= erb :client_status %>
+            <input id="client-entry" size="50" type="text" name="new_client" class="form-control" placeholder="Enter a client">
+            <input type="submit" value="Submit" class="button">
+          </fieldset>
         </form>
       </div>
 
