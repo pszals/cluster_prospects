@@ -67,6 +67,17 @@ class Sinatra_Cluster < Sinatra::Base
     erb :prospects
   end
 
+  get '/dormant' do
+    @clients = client_models.get_dormant_clients
+    erb :dormant
+  end
+
+  post '/dormant' do
+    update_client_status
+    @clients = client_models.get_dormant_clients
+    erb :dormant
+  end
+
   post '/add_client' do
     make_new_client
     @clients = client_models.all

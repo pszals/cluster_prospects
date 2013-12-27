@@ -50,4 +50,9 @@ describe ClientService do
     mock_db.should_receive(:all).with(:order => [:name.asc], :status => nil)
     client_service.get_active_clients
   end
+
+  it 'gets dormant clients' do
+    mock_db.should_receive(:all).with(:order => [:name.asc], :status => "dormant")
+    client_service.get_dormant_clients
+  end
 end

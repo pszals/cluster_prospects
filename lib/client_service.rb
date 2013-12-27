@@ -39,6 +39,10 @@ class ClientService
     @db.all(:order => [:name.asc], :status => "prospect")
   end
 
+  def get_dormant_clients
+    @db.all(:order => [:name.asc], :status => "dormant")
+  end
+
   def get_active_clients
     @db.all(:order => [:name.asc], :status => "active") | @db.all(:order => [:name.asc], :status => nil)
   end
