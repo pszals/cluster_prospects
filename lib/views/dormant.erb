@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <%= erb :head %>
+  <body>
+    <%= erb :menu_banner %>
+    <h1 class="belowHeader">
+      Dormant Clients
+    </h1>
+    <div class="belowHeader">
+      <%  if @clients %>
+        <table class="table table-striped" id="smallTable">
+          <tr>
+            <td><b>Dormant</b></td>
+            <td><b>Status</b></td>
+            <td><b>Click to Change</b></td>
+          </tr>
+          <% @clients.each do |client| %>
+            <form action="/dormant" method="POST">
+              <tr>
+                <td> <%= "#{client.name}" %> </td>
+                <td> <%= erb :client_status %></td>
+                <td> 
+                  <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
+                  <input type="submit" value="Change" class="button">
+                </td>
+              </tr>
+            </form>
+          <% end %>
+        </table>
+      <% end %>
+    </div>
+  </body>
+</html>
