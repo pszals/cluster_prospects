@@ -11,28 +11,7 @@
   </head>
   
   <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">Cluster</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/all_clients">Clients</a></li>
-            <li><a href="/prospects">Prospects</a></li>
-            <li><a href="/add_client">Add Client</a></li>
-            <li><a href="/add_task">Add Task</a></li>
-            <li><a href="/all_tasks">All Tasks</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
+    <%= erb :menu_banner %>
     <div class="container">
       <div class="starter-template">
         <p class="lead">Track clients and client-related tasks.</p>
@@ -46,18 +25,18 @@
 
     <div class="belowHeader">
 
-    <%  if @clients %>
-      <table class="table table-striped" id="smallTable">
-        <tr>
-          <td><b>Prospects</b></td>
-        </tr>
-        <% @clients.each do |prospect| %>
+      <%  if @clients %>
+        <table class="table table-striped" id="smallTable">
+          <tr>
+            <td><b>Prospects</b></td>
+          </tr>
+          <% @clients.each do |prospect| %>
             <tr>
               <td> <%= "#{prospect.name}" %> </td>
             </tr>
-        <% end %>
-      </table>
-    <% end %>
-  </div>
+          <% end %>
+        </table>
+      <% end %>
+    </div>
   </body>
 </html>
