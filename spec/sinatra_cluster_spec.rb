@@ -80,6 +80,17 @@ describe Sinatra_Cluster do
     end
   end
 
+  describe 'all_clients' do
+    it 'modifies the status of a client' do
+      ClientModel.create(:name => "Test Client")
+      fake_id = ClientModel.first(:name => "Test Client").id
+      post '/all_clients', params={:status => "prospect", :client_id => fake_id} 
+
+      ClientModel.first(:id => fake_id).status.should == "prospect"
+      ClientModel.all(:name => "Test Client").destroy
+    end
+  end
+
   describe 'adding a task' do
     it 'retrieves a 200 response' do
       ClientModel.create(:name => "test adding a task")

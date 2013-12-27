@@ -38,4 +38,8 @@ class ClientService
   def get_prospects
     @db.all(:status => "prospect")
   end
+
+  def get_active_clients
+    @db.all(:status => "active")
+  end
 end
