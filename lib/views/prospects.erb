@@ -18,7 +18,7 @@
             <form action="/prospects" method="POST">
               <tr>
                 <td><a href="/<%= client.id %>"> <%= "#{client.name}" %> </td>
-                <td> <%= erb :'partials/client_status' %></td>
+                <td> <%= erb :'partials/prospective_status' %></td>
                 <td> 
                   <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
                   <input type="submit" value="Change" class="button">
