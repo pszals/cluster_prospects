@@ -26,7 +26,7 @@
           </tr>
           <% @clients.each do |client| %>
             <tr>
-              <td> <%= "#{client.name}" %> </td>
+              <td><a href="/<%= client.id %>"> <%= "#{client.name}" %> </td>
             </tr>
           <% end %>
         </table>

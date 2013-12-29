@@ -8,7 +8,7 @@
     </h1>
 
     <div class="belowHeader">
-      <%  if @clients != [] %>
+      <%  if clients_in_database? %>
         <form action="/add_task" method="POST">
           <%  if @clients %>
             <fieldset>
