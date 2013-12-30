@@ -1,3 +1,5 @@
+require 'client/states'
+
 class ClientService
   attr_accessor :db
 
@@ -36,14 +38,14 @@ class ClientService
   end
 
   def get_prospects
-    @db.all(:order => [:name.asc], :status => "prospect")
+    @db.all(:order => [:name.asc], :status => ::Client::States::PROSPECT)
   end
 
   def get_dormant_clients
-    @db.all(:order => [:name.asc], :status => "dormant")
+    @db.all(:order => [:name.asc], :status => ::Client::States::DORMANT)
   end
 
   def get_active_clients
-    @db.all(:order => [:name.asc], :status => "active") | @db.all(:order => [:name.asc], :status => nil)
+    @db.all(:order => [:name.asc], :status => ::Client::States::ACTIVE) | @db.all(:order => [:name.asc], :status => nil)
   end
 end
