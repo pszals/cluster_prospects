@@ -15,19 +15,19 @@
             <td><b>Click to Change</b></td>
           </tr>
           <% @clients.each do |client| %>
-            <form action="/all_clients" method="POST">
-              <tr>
+            <tr>
+              <form action="/all_clients" method="POST">
                 <td><a href="/<%= client.id %>"> <%= "#{client.name}" %> </td>
-                <td> <%= erb :'partials/client_status' %></td>
-                <td> 
-                  <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
-                  <input type="submit" value="Change" class="button">
-                </td>
-              </tr>
-            </form>
-          <% end %>
-        </table>
-      <% end %>
-    </div>
-  </body>
-</html>
+                  <td> <%= erb :'partials/client_status' %></td>
+                  <td> 
+                    <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
+                    <input type="submit" value="Change" class="button">
+                  </td>
+                </tr>
+              </form>
+            <% end %>
+          </table>
+        <% end %>
+      </div>
+    </body>
+  </html>
