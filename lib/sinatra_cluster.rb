@@ -21,14 +21,14 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   get '/' do
-    @clients = client_models.ascending_name
-    client_models.tasks_by_descending_priority
+    @clients = client_service.ascending_name
+    client_service.tasks_by_descending_priority
     erb :home
   end
 
   get '/all_tasks' do
-    @clients = client_models.ascending_name
-    client_models.tasks_by_descending_priority
+    @clients = client_service.ascending_name
+    client_service.tasks_by_descending_priority
     erb :all_tasks
   end
 
@@ -43,72 +43,72 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   get '/add_client' do
-    @clients = client_models.ascending_name
+    @clients = client_service.ascending_name
     erb :add_client
   end
 
   get '/all_clients' do
-    @clients = client_models.get_active_clients
+    @clients = client_service.get_active_clients
     erb :all_clients
   end
 
   post '/all_clients' do
     update_client_status
-    @clients = client_models.get_active_clients
+    @clients = client_service.get_active_clients
     erb :all_clients
   end
 
   get '/prospects' do
-    @clients = client_models.get_prospects
+    @clients = client_service.get_prospects
     erb :prospects
   end
 
   post '/prospects' do
     update_client_status
-    @clients = client_models.get_prospects
+    @clients = client_service.get_prospects
     erb :prospects
   end
 
   get '/dormant' do
-    @clients = client_models.get_dormant_clients
+    @clients = client_service.get_dormant_clients
     erb :dormant
   end
 
   post '/dormant' do
     update_client_status
-    @clients = client_models.get_dormant_clients
+    @clients = client_service.get_dormant_clients
     erb :dormant
   end
 
   post '/add_client' do
     make_new_client
-    @clients = client_models.all
+    @clients = client_service.all
     redirect '/'
   end
 
   get '/add_task' do
-    @clients = client_models.ascending_name
+    @clients = client_service.ascending_name
     erb :add_task
   end
   
   post '/add_task' do
-    @clients = client_models.ascending_name
+    @clients = client_service.ascending_name
     add_task
     erb :home
   end
 
   get '/:id' do 
-    @clients = [client_models.get_by_id(params[:id])]
-    client_models.tasks_by_descending_priority
+    @clients = [client_service.get_by_id(params[:id])]
+    client_service.tasks_by_descending_priority
     erb :all_tasks
   end
 
-  def client_models
-    @client_models ||= ClientService.new(ClientModel)
+  def client_service
+    @client_service ||= ClientService.new(ClientModel)
   end
 
   def make_new_client
-    client_models.create(:name => params[:new_client].to_s, :status => params[:status].to_s)
+    client_service.create(:name => params[:new_client].to_s, :status => params[:status].to_s)
   end
 
   def client_has_incomplete_tasks?(client)
@@ -124,13 +124,13 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   def add_task
-    client = ClientModel.get(params[:client_id])
+    client = client_service.get_by_id(params[:client_id])
     task = TaskModel.create(:description => params[:task], :priority => params[:priority], :client_model => client)
     task.save
   end
 
   def update_client_status
-    client = ClientModel.get(params["client_id"].to_i)
+    client = client_service.get_by_id(params["client_id"].to_i)
     client.update(:status => params[:status])
   end
 
