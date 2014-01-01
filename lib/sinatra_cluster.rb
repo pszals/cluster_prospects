@@ -53,7 +53,7 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   post '/all_clients' do
-    update_client_status
+    client_service.update_client_status(params["client_id"].to_i, params[:status])
     @clients = client_service.get_active_clients
     erb :all_clients
   end
@@ -64,7 +64,7 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   post '/prospects' do
-    update_client_status
+    client_service.update_client_status(params["client_id"].to_i, params[:status])
     @clients = client_service.get_prospects
     erb :prospects
   end
@@ -75,7 +75,7 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   post '/dormant' do
-    update_client_status
+    client_service.update_client_status(params["client_id"].to_i, params[:status])
     @clients = client_service.get_dormant_clients
     erb :dormant
   end
@@ -112,11 +112,7 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   def client_has_incomplete_tasks?(client)
-    if client.task_models != [] and client.task_models.all(:order => [:priority.asc]).last.priority != 0
-      true
-    else
-      false
-    end
+    client.task_models != [] and client.task_models.all(:order => [:priority.asc]).last.priority != 0
   end
 
   def show_highest_priority_task(client)
@@ -127,11 +123,6 @@ class Sinatra_Cluster < Sinatra::Base
     client = client_service.get_by_id(params[:client_id])
     task = TaskModel.create(:description => params[:task], :priority => params[:priority], :client_model => client)
     task.save
-  end
-
-  def update_client_status
-    client = client_service.get_by_id(params["client_id"].to_i)
-    client.update(:status => params[:status])
   end
 
   def complete_task

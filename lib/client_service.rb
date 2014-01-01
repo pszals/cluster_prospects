@@ -48,4 +48,9 @@ class ClientService
   def get_active_clients
     @db.all(:order => [:name.asc], :status => ::Client::States::ACTIVE) | @db.all(:order => [:name.asc], :status => nil)
   end
+
+  def update_client_status(id, status)
+    client = get_by_id(id)
+    client.update(:status => status)
+  end
 end
