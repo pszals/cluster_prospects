@@ -2,11 +2,11 @@ require 'sinatra'
 require 'bundler'
 require 'data_mapper'
 
-#$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.dirname(__FILE__))
 
-require_relative 'client_service'
-require_relative 'client_model'
-require_relative 'task_model'
+require 'client_service'
+require 'client_model'
+require 'task_model'
 
 DataMapper.setup(:default, ENV["HEROKU_POSTGRESQL_ROSE_URL"] || "postgres://pszalwinski: @localhost/cluster")
 DataMapper.auto_upgrade!
