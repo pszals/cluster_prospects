@@ -1,9 +1,8 @@
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+
 require 'sinatra'
 require 'bundler'
 require 'data_mapper'
-
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-
 require 'client_service'
 require 'client_model'
 require 'task_model'
