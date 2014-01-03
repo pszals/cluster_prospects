@@ -3,7 +3,8 @@
     <tr>
       <td><a href="/<%= client.id %>"><%= "#{client.name}" %></a></td>
       <td><%= client.status %></td>
-      <td> <%= show_highest_priority_task(client)  %> </td>
+      <td> <%= client_service.show_highest_priority_task(client)  %> </td>
+      <td> <%= "#{client.task_models.all(:order => [:priority.asc]).last.created_at.strftime('%m/%d/%Y')}" %> </td>
       <td> 
         <form action="/" method="POST" onClick="return confirm('Are you sure this is complete?')">
           <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">

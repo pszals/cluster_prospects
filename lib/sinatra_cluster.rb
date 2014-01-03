@@ -114,10 +114,6 @@ class Sinatra_Cluster < Sinatra::Base
     client.task_models != [] and client.task_models.all(:order => [:priority.asc]).last.priority != 0
   end
 
-  def show_highest_priority_task(client)
-    "#{client.task_models.all(:order => [:priority.asc]).last.description}"
-  end
-
   def add_task
     client = client_service.get_by_id(params[:client_id])
     task = TaskModel.create(:description => params[:task], :priority => params[:priority], :client_model => client)

@@ -53,4 +53,8 @@ class ClientService
     client = get_by_id(id)
     client.update(:status => status)
   end
+
+  def show_highest_priority_task(client)
+    "#{client.task_models.all(:order => [:priority.asc]).last.description}"
+  end
 end
