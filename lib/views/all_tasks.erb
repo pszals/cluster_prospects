@@ -11,6 +11,8 @@
             <tr>
               <td><b>Client</b></td>
               <td><b>Task</b></td>
+              <td><b>Created On</b></td>
+              <td><b>Updated On</b></td>
               <td><b>Completed?</b></td>
               <td><b>Click to Complete</b></td>
             </tr>
@@ -19,6 +21,8 @@
                 <tr>
                   <td> <%= "#{client.name}" %> </td>
                   <td> <%= "#{task.description}" %> </td>
+                  <td> <%= "#{task.created_at.strftime('%m/%d/%Y')}" %> </td>
+                  <td> <%= "#{task.updated_at.strftime('%m/%d/%Y')}" %> </td>
                   <td> <%= "#{task.completed}" %> </td>
                   <td> 
                     <form action="/complete_task" method="POST" onClick="return confirm('Are you sure this is complete?')">
