@@ -54,7 +54,19 @@ class ClientService
     client.update(:status => status)
   end
 
-  def show_highest_priority_task(client)
-    "#{client.task_models.all(:order => [:priority.asc]).last.description}"
+  def highest_priority_task(client)
+    client.task_models.all(:order => [:priority.asc]).last
   end
+
+  def show_highest_priority_task(client)
+    "#{highest_priority_task(client).description}"
+  end
+
+  def datetime_highest_priority_task_created(client)
+    "#{highest_priority_task(client).created_at.strftime('%m/%d/%Y')}" 
+  end
+
+  def status(client)
+    client.status.to_s.capitalize
+end
 end
