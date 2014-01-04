@@ -3,7 +3,7 @@ require 'mock_db'
 
 describe ClientService do
   let(:mock_db) {MockDB.new}
-  let(:client_service) {ClientService.new(mock_db)}
+  let(:client_service) {ClientService.new(mock_db, mock_db)}
 
   it 'responds to all' do
     mock_db.should_receive(:all)
@@ -26,8 +26,8 @@ describe ClientService do
   end
 
   it 'makes a new client' do
-    mock_db.should_receive(:create).with("details")
-    client_service.create("details")
+    mock_db.should_receive(:create).with({:name=>"name", :status=>"status"})
+    client_service.make_new_client("name", "status")
   end
 
   it 'sorts task models by descending priority if they exist' do

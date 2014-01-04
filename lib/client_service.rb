@@ -3,8 +3,9 @@ require 'client/states'
 class ClientService
   attr_accessor :db
 
-  def initialize(db)
+  def initialize(db, tasks)
     @db = db
+    @tasks = tasks
   end
 
   def all
@@ -23,8 +24,8 @@ class ClientService
     @db.all(:order => [:name.asc])
   end
 
-  def create(details)
-    @db.create(details)
+  def make_new_client(name, status)
+    @db.create(:name => name.to_s, :status => status.to_s)
   end
 
   def tasks_by_descending_priority
@@ -68,5 +69,26 @@ class ClientService
 
   def status(client)
     client.status.to_s.capitalize
-end
+  end
+
+  def complete_task(client_id, task_id)
+    client = @db.get(client_id.to_i)
+    task = client.task_models.get(task_id.to_i)
+    task.update(:completed => true)
+    task.update(:priority => 0)
+  end
+
+  def add_task(client_id, task_description, priority)
+    client = get_by_id(client_id)
+    task = @tasks.create(:description => task_description, :priority => priority, :client_model => client)
+    task.save
+  end
+
+  def has_incomplete_tasks?(client)
+    client.task_models != [] and client.task_models.all(:order => [:priority.asc]).last.priority != 0
+  end
+
+  def clients_in_database?(clients)
+    clients != []
+  end
 end

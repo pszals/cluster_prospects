@@ -1,5 +1,5 @@
 <% @clients.each do |client| %>
-  <% if client_has_incomplete_tasks?(client) %>
+  <% if client_service.has_incomplete_tasks?(client) %>
     <tr>
       <td><a href="/<%= client.id %>"><%= "#{client.name}" %></a></td>
       <td> <%= client_service.status(client) %></td>

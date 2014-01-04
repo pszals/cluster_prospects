@@ -32,12 +32,14 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   post '/complete_task' do
-    complete_task
+    @clients = client_service.all
+    client_service.complete_task(params["client_id"], params["task_id"])
     redirect '/all_tasks'
   end
   
   post '/' do
-    complete_task
+    @clients = client_service.all
+    client_service.complete_task(params["client_id"], params["task_id"])
     redirect '/'
   end
 
@@ -80,7 +82,7 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   post '/add_client' do
-    make_new_client
+    client_service.make_new_client(params[:new_client], params[:status])
     @clients = client_service.all
     redirect '/'
   end
@@ -92,7 +94,7 @@ class Sinatra_Cluster < Sinatra::Base
   
   post '/add_task' do
     @clients = client_service.ascending_name
-    add_task
+    client_service.add_task(params[:client_id], params[:task], params[:status])
     erb :home
   end
 
@@ -103,32 +105,6 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   def client_service
-    @client_service ||= ClientService.new(ClientModel)
-  end
-
-  def make_new_client
-    client_service.create(:name => params[:new_client].to_s, :status => params[:status].to_s)
-  end
-
-  def client_has_incomplete_tasks?(client)
-    client.task_models != [] and client.task_models.all(:order => [:priority.asc]).last.priority != 0
-  end
-
-  def add_task
-    client = client_service.get_by_id(params[:client_id])
-    task = TaskModel.create(:description => params[:task], :priority => params[:priority], :client_model => client)
-    task.save
-  end
-
-  def complete_task
-    @clients = ClientModel.all
-    client = ClientModel.get(params["client_id"].to_i)
-    task = client.task_models.get(params["task_id"].to_i)
-    task.update(:completed => true)
-    task.update(:priority => 0)
-  end
-
-  def clients_in_database?
-    @clients != []
+    @client_service ||= ClientService.new(ClientModel, TaskModel)
   end
 end
