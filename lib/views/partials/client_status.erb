@@ -1,5 +1,5 @@
 <select name="status">
-  <option value="active" selected="selected">Active</option>
-  <option value="prospect">Prospect</option>
-  <option value="dormant">Dormant</option>
+  <option value=<%= ::Client::States::ACTIVE %> selected="selected">Active</option>
+  <option value=<%= ::Client::States::PROSPECT %>>Prospect</option>
+  <option value=<%= ::Client::States::DORMANT %>>Dormant</option>
 </select>
