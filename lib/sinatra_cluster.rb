@@ -19,6 +19,10 @@ class Sinatra_Cluster < Sinatra::Base
     username == 'margaret' && password == 't4sktr4ck3r'
   end
 
+  def client_service
+    @client_service ||= ClientService.new(ClientModel, TaskModel)
+  end
+
   get '/' do
     @clients = client_service.ascending_name
     client_service.tasks_by_descending_priority
@@ -41,11 +45,6 @@ class Sinatra_Cluster < Sinatra::Base
     @clients = client_service.all
     client_service.complete_task(params["client_id"], params["task_id"])
     redirect '/'
-  end
-
-  get '/add_client' do
-    @clients = client_service.ascending_name
-    erb :add_client
   end
 
   get '/all_clients' do
@@ -81,6 +80,11 @@ class Sinatra_Cluster < Sinatra::Base
     erb :dormant
   end
 
+  get '/add_client' do
+    @clients = client_service.ascending_name
+    erb :add_client
+  end
+
   post '/add_client' do
     client_service.make_new_client(params[:new_client], params[:status])
     @clients = client_service.all
@@ -102,9 +106,5 @@ class Sinatra_Cluster < Sinatra::Base
     @clients = [client_service.get_by_id(params[:id])]
     client_service.tasks_by_descending_priority
     erb :all_tasks
-  end
-
-  def client_service
-    @client_service ||= ClientService.new(ClientModel, TaskModel)
   end
 end
