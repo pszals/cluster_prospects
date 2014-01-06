@@ -6,14 +6,14 @@ require 'data_mapper'
 require 'client_service'
 require 'client_model'
 require 'task_model'
+require 'presenter'
 
 DataMapper.setup(:default, ENV["HEROKU_POSTGRESQL_ROSE_URL"] || "postgres://pszalwinski: @localhost/cluster")
 DataMapper.auto_upgrade!
 DataMapper.finalize
 
-
 class Sinatra_Cluster < Sinatra::Base
-  attr_reader :params, :client_manager
+  attr_reader :params
 
   use Rack::Auth::Basic do |username, password|
     username == 'margaret' && password == 't4sktr4ck3r'
@@ -21,6 +21,10 @@ class Sinatra_Cluster < Sinatra::Base
 
   def client_service
     @client_service ||= ClientService.new(ClientModel, TaskModel)
+  end
+
+  def presenter
+    @presenter ||= Presenter.new
   end
 
   get '/' do
@@ -60,6 +64,7 @@ class Sinatra_Cluster < Sinatra::Base
 
   get '/prospects' do
     @clients = client_service.get_prospects
+    @status = 
     erb :prospects
   end
 

@@ -16,7 +16,7 @@
             <tr>
               <form action="/dormant" method="POST">
                 <td><a href="/<%= client.id %>"> <%= "#{client.name}" %> </td>
-                  <td> <%= erb :'partials/dormant_status' %></td>
+                  <td> <%= presenter.client_type_selection(::Client::States::DORMANT) %></td>
                   <td> 
                     <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
                     <input type="submit" value="Change" class="button">

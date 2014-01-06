@@ -10,7 +10,7 @@
         <form action="/add_client" method="POST">
           <fieldset>
             <label>Client Status:</label>
-            <%= erb :'partials/client_status' %>
+              <%= presenter.client_type_selection(::Client::States::ACTIVE) %>
             <input id="client-entry" size="50" type="text" name="new_client" class="form-control" placeholder="Enter a client">
             <input type="submit" value="Submit" class="button">
           </fieldset>
