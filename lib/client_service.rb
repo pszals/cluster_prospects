@@ -1,53 +1,54 @@
 require 'client/states'
 
 class ClientService
-  attr_accessor :db
+  attr_accessor :clients, :tasks, :users
 
-  def initialize(db, tasks)
-    @db = db
+  def initialize(clients, tasks, users)
+    @clients = clients
     @tasks = tasks
+    @users = users
   end
 
   def all
-    @db.all
+    @clients.all
   end
 
   def ascending_priority
-    @db.all(:order => [:priority.asc])
+    @clients.all(:order => [:priority.asc])
   end
 
   def descending_priority
-    @db.all(:order => [:priority.desc])
+    @clients.all(:order => [:priority.desc])
   end
 
   def ascending_name
-    @db.all(:order => [:name.asc])
+    @clients.all(:order => [:name.asc])
   end
 
   def make_new_client(name, status)
-    @db.create(:name => name.to_s, :status => status.to_s)
+    @clients.create(:name => name.to_s, :status => status.to_s)
   end
 
   def tasks_by_descending_priority
-    @db.each do |client|
+    @clients.each do |client|
       client.task_models.all(:order => [:priority.desc]) if client.task_models != []
     end
   end
 
   def get_by_id(id)
-    @db.get(id)
+    @clients.get(id)
   end
 
   def get_prospects
-    @db.all(:order => [:name.asc], :status => ::Client::States::PROSPECT)
+    @clients.all(:order => [:name.asc], :status => ::Client::States::PROSPECT)
   end
 
   def get_dormant_clients
-    @db.all(:order => [:name.asc], :status => ::Client::States::DORMANT)
+    @clients.all(:order => [:name.asc], :status => ::Client::States::DORMANT)
   end
 
   def get_active_clients
-    @db.all(:order => [:name.asc], :status => ::Client::States::ACTIVE) | @db.all(:order => [:name.asc], :status => nil)
+    @clients.all(:order => [:name.asc], :status => ::Client::States::ACTIVE) | @clients.all(:order => [:name.asc], :status => nil)
   end
 
   def update_client_status(id, status)
@@ -72,7 +73,7 @@ class ClientService
   end
 
   def complete_task(client_id, task_id)
-    client = @db.get(client_id.to_i)
+    client = @clients.get(client_id.to_i)
     task = client.task_models.get(task_id.to_i)
     task.update(:completed => true)
     task.update(:priority => 0)
@@ -90,5 +91,9 @@ class ClientService
 
   def clients_in_database?(clients)
     clients != []
+  end
+
+  def create_user(username, password)
+    @users.create(:username => username, :password => password)
   end
 end

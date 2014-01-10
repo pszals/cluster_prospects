@@ -3,7 +3,7 @@ require 'mock_db'
 
 describe ClientService do
   let(:mock_db) {MockDB.new}
-  let(:client_service) {ClientService.new(mock_db, mock_db)}
+  let(:client_service) {ClientService.new(mock_db, mock_db, mock_db)}
 
   it 'responds to all' do
     mock_db.should_receive(:all)
@@ -54,5 +54,10 @@ describe ClientService do
   it 'gets dormant clients' do
     mock_db.should_receive(:all).with(:order => [:name.asc], :status => "dormant")
     client_service.get_dormant_clients
+  end
+
+  it 'adds a user to the database' do
+    mock_db.should_receive(:create).with(:username => "admin", :password => "admin")
+    client_service.create_user("admin", "admin")
   end
 end

@@ -2,11 +2,13 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'sinatra'
 require 'bundler'
+require 'bcrypt'
 require 'data_mapper'
 require 'client_service'
 require 'client_model'
 require 'task_model'
 require 'presenter'
+require 'user_model'
 
 DataMapper.setup(:default, ENV["HEROKU_POSTGRESQL_ROSE_URL"] || "postgres://pszalwinski: @localhost/cluster")
 DataMapper.auto_upgrade!
@@ -20,11 +22,14 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   def client_service
-    @client_service ||= ClientService.new(ClientModel, TaskModel)
+    @client_service ||= ClientService.new(ClientModel, TaskModel, UserModel)
   end
 
   def presenter
     @presenter ||= Presenter.new
+  end
+
+  get '/add_user' do
   end
 
   get '/' do

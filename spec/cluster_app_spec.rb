@@ -18,6 +18,19 @@ describe Sinatra_Cluster do
     authorize 'margaret', 't4sktr4ck3r'
   end
 
+
+  describe 'adding a user page' do
+    it 'retrieves a 200 response' do
+      get '/add_user'
+      last_response.status.should == 200
+    end
+
+    xit 'creates a new user' do
+      post '/add_user', params={}
+      last_response.status.should == 200
+    end
+  end
+
   describe 'cluster home page' do
     it 'retrieves a 200 response' do
       get '/'
