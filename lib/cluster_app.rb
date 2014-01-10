@@ -30,6 +30,14 @@ class Sinatra_Cluster < Sinatra::Base
   end
 
   get '/add_user' do
+    erb :add_user
+  end
+
+  post '/add_user' do
+    @clients = client_service.ascending_name
+    client_service.tasks_by_descending_priority
+    client_service.create_user(params["username"], params["password"])
+    redirect '/'
   end
 
   get '/' do

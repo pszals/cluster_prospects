@@ -18,19 +18,6 @@ describe Sinatra_Cluster do
     authorize 'margaret', 't4sktr4ck3r'
   end
 
-
-  describe 'adding a user page' do
-    it 'retrieves a 200 response' do
-      get '/add_user'
-      last_response.status.should == 200
-    end
-
-    xit 'creates a new user' do
-      post '/add_user', params={}
-      last_response.status.should == 200
-    end
-  end
-
   describe 'cluster home page' do
     it 'retrieves a 200 response' do
       get '/'
@@ -115,6 +102,22 @@ describe Sinatra_Cluster do
 
       TaskModel.all(:description => "test adding a task").destroy
       ClientModel.all(:name => "test adding a task").destroy
+    end
+  end
+
+  describe 'adding a user' do
+    it 'retrieves a 200 response' do
+      get '/add_user'
+      last_response.status.should == 200
+    end
+
+    it 'creates a new user in the database' do
+      post '/add_user', params={:username => "fake", :password => "password"}
+
+      last_response.status.should == 302
+
+      UserModel.first(:username => "fake").should_not be_nil
+      UserModel.all(:username => "fake").destroy
     end
   end
 end

@@ -5,6 +5,7 @@ gem 'dm-postgres-adapter'
 gem 'data_mapper'
 
 group :test do
+  gem 'guard-rspec', require: false
   gem 'guard'
   gem 'dm-postgres-adapter'
   gem 'data_mapper'
