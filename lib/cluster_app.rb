@@ -46,10 +46,6 @@ class Sinatra_Cluster < Sinatra::Base
     end
   end
 
-  use Rack::Auth::Basic do |username, password|
-    username == 'margaret' && password == 't4sktr4ck3r'
-  end
-
   def client_service
     @client_service ||= ClientService.new(ClientModel, TaskModel, UserModel)
   end

@@ -17,7 +17,6 @@ end
 describe Sinatra_Cluster do
   let(:cluster) { Sinatra_Cluster.new }
   before(:each) do
-    authorize 'margaret', 't4sktr4ck3r'
     @user = UserModel.first(username: "admin")
     login_as @user
   end
