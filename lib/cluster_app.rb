@@ -19,7 +19,7 @@ DataMapper.auto_upgrade!
 class Sinatra_Cluster < Sinatra::Base
   attr_reader :params
 
-  use Rack::Session::Cookie
+  use Rack::Session::Cookie, secret: "nosecretshere"
   use Warden::Manager do |manager|
     manager.default_strategies :password
     manager.failure_app = Sinatra_Cluster
@@ -54,6 +54,18 @@ class Sinatra_Cluster < Sinatra::Base
     @presenter ||= Presenter.new
   end
 
+  get '/add_user' do
+    erb :add_user
+  end
+
+  post '/add_user' do
+    @clients = client_service.ascending_name
+    client_service.tasks_by_descending_priority
+
+    client_service.create_user(params["username"], params["password"])
+    redirect '/'
+  end
+
   get '/fun' do
     erb :fun
   end
@@ -74,19 +86,6 @@ class Sinatra_Cluster < Sinatra::Base
     else
       redirect '/login'
     end
-  end
-
-  get '/add_user' do
-    warden.authenticate!
-    erb :add_user
-  end
-
-  post '/add_user' do
-    warden.authenticate!
-    @clients = client_service.ascending_name
-    client_service.tasks_by_descending_priority
-    client_service.create_user(params["username"], params["password"])
-    redirect '/'
   end
 
   get '/' do

@@ -1,9 +1,15 @@
 require 'client_service'
+require 'data_mapper'
+require 'bcrypt'
+require 'warden'
 require 'mock_db'
+require 'user_model'
+require 'spec_helper'
+require 'client_model'
 
 describe ClientService do
   let(:mock_db) {MockDB.new}
-  let(:client_service) {ClientService.new(mock_db, mock_db, mock_db)}
+  let(:client_service) {ClientService.new(mock_db, mock_db, UserModel)}
 
   it 'responds to all' do
     mock_db.should_receive(:all)
@@ -57,12 +63,24 @@ describe ClientService do
   end
 
   it 'adds a user to the database' do
-    mock_db.should_receive(:create).with(:username => "admin", :password => "admin")
-    client_service.create_user("admin", "admin")
+
+    client_service.create_user("fake", "password")
+
+    UserModel.first(:username => "fake").should_not be_nil
+    UserModel.all(:username => "fake").destroy
   end
 
   it 'fetches users by username' do
-    mock_db.should_receive(:first).with(username: "admin")
+    UserModel.should_receive(:first).with(username: "admin")
     client_service.find_by_username("admin")
+  end
+
+  it 'fetches all clients belonging to a given user' do
+    test_user = UserModel.first(username: "admin")
+    test_client = 
+
+    test_users_clients = client_service.get_clients_for_user(test_user) 
+
+    test_users_clients.should_not be_nil
   end
 end

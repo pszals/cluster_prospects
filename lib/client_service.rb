@@ -104,4 +104,8 @@ class ClientService
   def get_user_by_id(id)
     @users.get(id)
   end
+
+  def get_clients_for_user(user)
+    ""
+  end
 end
