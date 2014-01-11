@@ -6,6 +6,8 @@ class UserModel
   property :username, String, :length => 3..50
   property :password, BCryptHash
 
+  has n, :client_models
+
   def authenticate(attempted_password)
     self.password == attempted_password
   end

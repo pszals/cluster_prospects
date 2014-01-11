@@ -60,4 +60,9 @@ describe ClientService do
     mock_db.should_receive(:create).with(:username => "admin", :password => "admin")
     client_service.create_user("admin", "admin")
   end
+
+  it 'fetches users by username' do
+    mock_db.should_receive(:first).with(username: "admin")
+    client_service.find_by_username("admin")
+  end
 end

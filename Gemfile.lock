@@ -81,6 +81,9 @@ GEM
       method_source (~> 0.8)
       slop (~> 3.4)
     rack (1.5.2)
+    rack-flash3 (1.0.1)
+      rack
+      rack
     rack-protection (1.5.1)
       rack
     rack-test (0.6.2)
@@ -106,6 +109,8 @@ GEM
     tilt (1.4.1)
     timers (1.1.0)
     uuidtools (2.1.4)
+    warden (1.2.1)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
@@ -116,6 +121,8 @@ DEPENDENCIES
   guard
   guard-rspec
   pry
+  rack-flash3 (= 1.0.1)
   rack-test
   rspec
   sinatra
+  warden (= 1.2.1)

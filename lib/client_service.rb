@@ -96,4 +96,12 @@ class ClientService
   def create_user(username, password)
     @users.create(:username => username, :password => password)
   end
+
+  def find_by_username(username)
+    @users.first(username: username)
+  end
+
+  def get_user_by_id(id)
+    @users.get(id)
+  end
 end

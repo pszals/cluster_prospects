@@ -3,6 +3,8 @@ require 'spec_helper'
 require 'data_mapper'
 require 'client_model'
 require 'task_model'
+require 'user_model'
+require 'warden'
 
 DataMapper.setup(:default, "postgres://pszalwinski: @localhost/cluster")
 DataMapper.finalize
@@ -16,6 +18,8 @@ describe Sinatra_Cluster do
   let(:cluster) { Sinatra_Cluster.new }
   before(:each) do
     authorize 'margaret', 't4sktr4ck3r'
+    @user = UserModel.first(username: "admin")
+    login_as @user
   end
 
   describe 'cluster home page' do
