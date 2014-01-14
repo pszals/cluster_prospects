@@ -24,7 +24,7 @@ class Sinatra_Cluster < Sinatra::Base
     manager.default_strategies :password
     manager.failure_app = Sinatra_Cluster
     manager.serialize_into_session {|user| user.id}
-    manager.serialize_from_session {|id| UserModel.find(id) }
+    manager.serialize_from_session {|id| UserModel.get(id) }
   end
 
   Warden::Manager.before_failure do |env,opts|
