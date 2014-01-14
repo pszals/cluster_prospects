@@ -8,4 +8,6 @@ class ClientModel
   property :updated_at, DateTime
 
   has n, :task_models
+
+  belongs_to :user_model, required: false
 end

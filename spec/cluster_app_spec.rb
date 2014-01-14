@@ -3,6 +3,8 @@ require 'spec_helper'
 require 'data_mapper'
 require 'client_model'
 require 'task_model'
+require 'user_model'
+require 'warden'
 
 DataMapper.setup(:default, "postgres://pszalwinski: @localhost/cluster")
 DataMapper.finalize
@@ -15,7 +17,8 @@ end
 describe Sinatra_Cluster do
   let(:cluster) { Sinatra_Cluster.new }
   before(:each) do
-    authorize 'margaret', 't4sktr4ck3r'
+    @user = UserModel.first(username: "admin")
+    login_as @user
   end
 
   describe 'cluster home page' do
@@ -102,6 +105,22 @@ describe Sinatra_Cluster do
 
       TaskModel.all(:description => "test adding a task").destroy
       ClientModel.all(:name => "test adding a task").destroy
+    end
+  end
+
+  describe 'adding a user' do
+    it 'retrieves a 200 response' do
+      get '/add_user'
+      last_response.status.should == 200
+    end
+
+    it 'creates a new user in the database' do
+      post '/add_user', params={:username => "fake", :password => "password"}
+
+      last_response.status.should == 302
+
+      UserModel.first(:username => "fake").should_not be_nil
+      UserModel.all(:username => "fake").destroy
     end
   end
 end
