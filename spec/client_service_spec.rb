@@ -8,58 +8,54 @@ require 'spec_helper'
 require 'client_model'
 
 describe ClientService do
-  let(:mock_db) {MockDB.new}
-  let(:client_service) {ClientService.new(mock_db, mock_db, UserModel)}
+  let(:clients) {MockDB.new}
+  let(:tasks) {MockDB.new}
+  let(:client_service) {ClientService.new(clients, tasks, UserModel)}
 
   it 'responds to all' do
-    mock_db.should_receive(:all)
-    client_service.all
+    clients.should_receive(:all).with(:user_model_id => 11)
+    client_service.all(11)
   end
 
   it 'responds to sorted_ascending_priority' do
-    mock_db.should_receive(:all).with(:order => [:priority.asc])
-    client_service.ascending_priority
+    clients.should_receive(:all).with(:order => [:priority.asc], :user_model_id => 11)
+    client_service.ascending_priority(11)
   end
 
   it 'responds to sorted_descending_priority' do
-    mock_db.should_receive(:all).with(:order => [:priority.desc])
-    client_service.descending_priority
+    clients.should_receive(:all).with(:order => [:priority.desc], :user_model_id => 11)
+    client_service.descending_priority(11)
   end
 
   it 'responds to sorted_ascending_name' do
-    mock_db.should_receive(:all).with(:order => [:name.asc])
-    client_service.ascending_name
+    clients.should_receive(:all).with(:order => [:name.asc], :user_model_id => 11)
+    client_service.ascending_name(11)
   end
 
   it 'makes a new client' do
-    mock_db.should_receive(:create).with({:name=>"name", :status=>"status"})
-    client_service.make_new_client("name", "status")
-  end
-
-  it 'sorts task models by descending priority if they exist' do
-    mock_db.should_receive(:each)
-    client_service.tasks_by_descending_priority
+    clients.should_receive(:create).with({name: "name", status: "status", user_model_id: 1})
+    client_service.make_new_client("name", "status", 1)
   end
 
   it 'gets client by id' do
-    mock_db.should_receive(:get)
+    clients.should_receive(:get)
     client_service.get_by_id(3)
   end
 
   it 'gets prospective clients' do
-    mock_db.should_receive(:all).with(:order => [:name.asc], :status => "prospect")
-    client_service.get_prospects
+    clients.should_receive(:all).with(:order => [:name.asc], :status => "prospect", :user_model_id => 11)
+    client_service.get_prospects(11)
   end
 
   it 'gets active clients' do
-    mock_db.should_receive(:all).with(:order => [:name.asc], :status => "active")
-    mock_db.should_receive(:all).with(:order => [:name.asc], :status => nil)
-    client_service.get_active_clients
+    clients.should_receive(:all).with(:order => [:name.asc], :status => "active", :user_model_id => 11)
+    clients.should_receive(:all).with(:order => [:name.asc], :status => nil, :user_model_id => 11)
+    client_service.get_active_clients(11)
   end
 
   it 'gets dormant clients' do
-    mock_db.should_receive(:all).with(:order => [:name.asc], :status => "dormant")
-    client_service.get_dormant_clients
+    clients.should_receive(:all).with(:order => [:name.asc], :status => "dormant", :user_model_id => 11)
+    client_service.get_dormant_clients(11)
   end
 
   it 'adds a user to the database' do

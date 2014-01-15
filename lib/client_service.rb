@@ -9,28 +9,29 @@ class ClientService
     @users = users
   end
 
-  def all
-    @clients.all
+  def all(user_id)
+    @clients.all(:user_model_id => user_id)
   end
 
-  def ascending_priority
-    @clients.all(:order => [:priority.asc])
+  def ascending_priority(user_id)
+    @clients.all(:user_model_id => user_id, :order => [:priority.asc])
   end
 
-  def descending_priority
-    @clients.all(:order => [:priority.desc])
+  def descending_priority(user_id)
+    @clients.all(:user_model_id => user_id, :order => [:priority.desc])
   end
 
-  def ascending_name
-    @clients.all(:order => [:name.asc])
+  def ascending_name(user_id)
+    @clients.all(:user_model_id => user_id, :order => [:name.asc])
   end
 
-  def make_new_client(name, status)
-    @clients.create(:name => name.to_s, :status => status.to_s)
+  def make_new_client(name, status, user_model_id)
+    @clients.create(name: name.to_s, status: status.to_s, user_model_id: user_model_id)
   end
 
-  def tasks_by_descending_priority
-    @clients.each do |client|
+  def tasks_by_descending_priority(user_id)
+    clients = @clients.all(:user_model_id => user_id)
+    clients.each do |client|
       client.task_models.all(:order => [:priority.desc]) if client.task_models != []
     end
   end
@@ -39,16 +40,16 @@ class ClientService
     @clients.get(id)
   end
 
-  def get_prospects
-    @clients.all(:order => [:name.asc], :status => ::Client::States::PROSPECT)
+  def get_prospects(user_id)
+    @clients.all(:user_model_id => user_id, :order => [:name.asc], :status => ::Client::States::PROSPECT)
   end
 
-  def get_dormant_clients
-    @clients.all(:order => [:name.asc], :status => ::Client::States::DORMANT)
+  def get_dormant_clients(user_id)
+    @clients.all(:user_model_id => user_id, :order => [:name.asc], :status => ::Client::States::DORMANT)
   end
 
-  def get_active_clients
-    @clients.all(:order => [:name.asc], :status => ::Client::States::ACTIVE) | @clients.all(:order => [:name.asc], :status => nil)
+  def get_active_clients(user_id)
+    @clients.all(:user_model_id => user_id, :order => [:name.asc], :status => ::Client::States::ACTIVE) | @clients.all(:order => [:name.asc], :status => nil, :user_model_id => user_id)
   end
 
   def update_client_status(id, status)
