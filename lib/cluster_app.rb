@@ -54,14 +54,20 @@ class Sinatra_Cluster < Sinatra::Base
     @presenter ||= Presenter.new
   end
 
+  get '/login' do
+    erb :login
+  end
+
+  get '/logout' do
+    warden.logout
+    redirect '/login'
+  end
+
   get '/add_user' do
     erb :add_user
   end
 
   post '/add_user' do
-    @clients = client_service.ascending_name
-    client_service.tasks_by_descending_priority
-
     client_service.create_user(params["username"], params["password"])
     redirect '/'
   end
@@ -70,19 +76,11 @@ class Sinatra_Cluster < Sinatra::Base
     erb :fun
   end
 
-  get '/login' do
-    erb :login
-  end
-
-  post '/unauthenticated' do
-    redirect '/login'
-  end
-
   post '/login' do
     warden.authenticate!
 
     if warden.authenticated?
-      redirect '/fun'
+      redirect '/'
     else
       redirect '/login'
     end
@@ -90,94 +88,93 @@ class Sinatra_Cluster < Sinatra::Base
 
   get '/' do
     warden.authenticate!
-    @clients = client_service.ascending_name
-    client_service.tasks_by_descending_priority
+    @clients = client_service.ascending_name(current_user.id)
+    client_service.tasks_by_descending_priority(current_user.id)
     erb :home
   end
 
   get '/all_tasks' do
     warden.authenticate!
-    @clients = client_service.ascending_name
-    client_service.tasks_by_descending_priority
+    @clients = client_service.ascending_name(current_user.id)
+    client_service.tasks_by_descending_priority(current_user.id)
     erb :all_tasks
   end
 
   post '/complete_task' do
     warden.authenticate!
-    @clients = client_service.all
+    @clients = client_service.all(current_user)
     client_service.complete_task(params["client_id"], params["task_id"])
     redirect '/all_tasks'
   end
 
   post '/' do
     warden.authenticate!
-    @clients = client_service.all
+    @clients = client_service.all(current_user.id)
     client_service.complete_task(params["client_id"], params["task_id"])
     redirect '/'
   end
 
   get '/all_clients' do
     warden.authenticate!
-    @clients = client_service.get_active_clients
+    @clients = client_service.get_active_clients(current_user.id)
     erb :all_clients
   end
 
   post '/all_clients' do
     warden.authenticate!
     client_service.update_client_status(params["client_id"].to_i, params[:status])
-    @clients = client_service.get_active_clients
+    @clients = client_service.get_active_clients(current_user.id)
     erb :all_clients
   end
 
   get '/prospects' do
     warden.authenticate!
-    @clients = client_service.get_prospects
-    @status = 
-      erb :prospects
+    @clients = client_service.get_prospects(current_user.id)
+    erb :prospects
   end
 
   post '/prospects' do
     warden.authenticate!
     client_service.update_client_status(params["client_id"].to_i, params[:status])
-    @clients = client_service.get_prospects
+    @clients = client_service.get_prospects(current_user.id)
     erb :prospects
   end
 
   get '/dormant' do
     warden.authenticate!
-    @clients = client_service.get_dormant_clients
+    @clients = client_service.get_dormant_clients(current_user.id)
     erb :dormant
   end
 
   post '/dormant' do
     warden.authenticate!
     client_service.update_client_status(params["client_id"].to_i, params[:status])
-    @clients = client_service.get_dormant_clients
+    @clients = client_service.get_dormant_clients(current_user.id)
     erb :dormant
   end
 
   get '/add_client' do
     warden.authenticate!
-    @clients = client_service.ascending_name
+    @clients = client_service.ascending_name(current_user.id)
     erb :add_client
   end
 
   post '/add_client' do
     warden.authenticate!
-    client_service.make_new_client(params[:new_client], params[:status])
-    @clients = client_service.all
+    client_service.make_new_client(params[:new_client], params[:status], current_user.id)
+    @clients = client_service.all(current_user.id)
     redirect '/'
   end
 
   get '/add_task' do
     warden.authenticate!
-    @clients = client_service.ascending_name
+    @clients = client_service.ascending_name(current_user.id)
     erb :add_task
   end
 
   post '/add_task' do
     warden.authenticate!
-    @clients = client_service.ascending_name
+    @clients = client_service.ascending_name(current_user.id)
     client_service.add_task(params[:client_id], params[:task], params[:status])
     erb :home
   end
@@ -185,7 +182,7 @@ class Sinatra_Cluster < Sinatra::Base
   get '/:id' do 
     warden.authenticate!
     @clients = [client_service.get_by_id(params[:id])]
-    client_service.tasks_by_descending_priority
+    client_service.tasks_by_descending_priority(current_user.id)
     erb :all_tasks
   end
 
@@ -195,7 +192,15 @@ class Sinatra_Cluster < Sinatra::Base
     erb :protected
   end
 
+  post '/unauthenticated' do
+    redirect '/login'
+  end
+
   def warden
     env['warden']   
+  end
+
+  def current_user
+    warden.user
   end
 end
