@@ -6,7 +6,7 @@
     </h1>
 
     <div class="belowHeader">
-      <%  if client_service.clients_in_database?(@clients) %>
+      <%  if data_mapper_wrapper.clients_in_database?(@clients) %>
         <form action="/add_task" method="POST">
           <%  if @clients %>
             <fieldset>

@@ -1,4 +1,4 @@
-require 'client_service'
+require 'data_mapper_wrapper'
 require 'data_mapper'
 require 'bcrypt'
 require 'warden'
@@ -7,10 +7,10 @@ require 'user_model'
 require 'spec_helper'
 require 'client_model'
 
-describe ClientService do
+describe DataMapperWrapper do
   let(:clients) {MockDB.new}
   let(:tasks) {MockDB.new}
-  let(:client_service) {ClientService.new(clients, tasks, UserModel)}
+  let(:client_service) {DataMapperWrapper.new(clients, tasks, UserModel)}
 
   it 'responds to all' do
     clients.should_receive(:all).with(:user_model_id => 11)

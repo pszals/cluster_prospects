@@ -1,6 +1,6 @@
 require 'client/states'
 
-class ClientService
+class DataMapperWrapper
   attr_accessor :clients, :tasks, :users
 
   def initialize(clients, tasks, users)

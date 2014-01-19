@@ -5,7 +5,7 @@
       Top Tasks
     </h1>
 
-    <%  if client_service.clients_in_database?(@clients) %>
+    <%  if data_mapper_wrapper.clients_in_database?(@clients) %>
       <%= erb :'partials/active_clients' %>
     <% else %>
       <p id="clientTable">There are no clients in the database.</p>
