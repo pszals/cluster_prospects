@@ -7,8 +7,6 @@ gem 'rack-flash3', '1.0.1', require: 'rack/flash'
 gem 'warden', '1.2.1'
 
 group :test do
-  gem 'guard-rspec', require: false
-  gem 'guard'
   gem 'dm-postgres-adapter'
   gem 'data_mapper'
   gem 'rspec'
