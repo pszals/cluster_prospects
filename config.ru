@@ -1,2 +1,3 @@
-require './lib/sinatra_cluster'
+require './lib/cluster_app'
+
 Sinatra_Cluster.run!

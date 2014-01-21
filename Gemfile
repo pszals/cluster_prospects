@@ -1,13 +1,15 @@
 source 'https://rubygems.org'
-gem 'sinatra-contrib'
+
 gem 'sinatra'
-gem 'data_mapper'
 gem 'dm-postgres-adapter'
+gem 'data_mapper'
+gem 'rack-flash3', '1.0.1', require: 'rack/flash'
+gem 'warden', '1.2.1'
 
 group :test do
-  gem 'rack'
+  gem 'dm-postgres-adapter'
+  gem 'data_mapper'
   gem 'rspec'
   gem 'rack-test'
   gem 'pry'
-  gem 'pg'
 end

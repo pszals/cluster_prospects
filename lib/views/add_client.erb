@@ -1,70 +1,34 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> 
-    <link href="style.css" media="screen" rel="stylesheet" type="text/css">
-  </head>
-  
   <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">Cluster PROSPECTS</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/all_clients">Clients</a></li>
-            <li class="active"><a href="/add_client">Add Client</a></li>
-            <li><a href="/add_task">Add Task</a></li>
-            <li><a href="/all_tasks">All Tasks</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-    <div class="container">
-      <div class="starter-template">
-        <p class="lead">Track clients and client-related tasks.</p>
-      </div>
-    </div><!-- /.container -->
-
-
-    <h1 class="header">
-      Add a client
+    <h1 class="belowHeader">
+      Add a Client
     </h1>
 
     <div class="belowHeader">
       <div class="column">
         <form action="/add_client" method="POST">
           <fieldset>
+            <label>Client Status:</label>
+              <%= presenter.client_type_selection(::Client::States::ACTIVE) %>
             <input id="client-entry" size="50" type="text" name="new_client" class="form-control" placeholder="Enter a client">
             <input type="submit" value="Submit" class="button">
           </fieldset>
         </form>
       </div>
 
-    <%  if @clients %>
-      <table class="table table-striped" id="smallTable">
-        <tr>
-          <td><b>Clients</b></td>
-        </tr>
-        <% @clients.each do |client| %>
+      <%  if @clients %>
+        <table class="table table-striped" id="smallTable">
+          <tr>
+            <td><b>Clients</b></td>
+          </tr>
+          <% @clients.each do |client| %>
             <tr>
-              <td> <%= "#{client.name}" %> </td>
+              <td><a href="/<%= client.id %>"> <%= "#{client.name}" %> </td>
             </tr>
-        <% end %>
-      </table>
-    <% end %>
-  </div>
+          <% end %>
+        </table>
+      <% end %>
+    </div>
   </body>
 </html>

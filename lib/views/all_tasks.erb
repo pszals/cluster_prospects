@@ -1,79 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> 
-    <link href="style.css" media="screen" rel="stylesheet" type="text/css">
-  </head>
-
   <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">Cluster PROSPECTS</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/all_clients">Clients</a></li>
-            <li><a href="/add_client">Add Client</a></li>
-            <li><a href="/add_task">Add Task</a></li>
-            <li class="active"><a href="/all_tasks">All Tasks</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-    <div class="container">
-      <div class="starter-template">
-        <p class="lead">Track clients and client-related tasks.</p>
-      </div>
-    </div><!-- /.container -->
-  
-
-    <h1 class="header">
-      View tasks
+    <h1 class="belowHeader">
+      View Tasks
     </h1>
-
     <div class="belowHeader">
-
-  <body>
-    <%  if @clients != [] %>
-      <table class="table table-striped" id="clientTable">
-        <tr>
-          <td><b>Client</b></td>
-          <td><b>Task</b></td>
-          <td><b>Completed?</b></td>
-          <td><b>Click to Complete</b></td>
-        </tr>
-        <% @clients.each do |client| %>
-          <% client.task_models.all(:order => [:priority.desc]).each do |task| %>
+      <body>
+        <%  if @clients != [] %>
+          <table class="table table-striped" id="clientTable">
             <tr>
-              <td> <%= "#{client.name}" %> </td>
-              <td> <%= "#{task.description}" %> </td>
-              <td> <%= "#{task.completed}" %> </td>
-              <td> 
-                <form action="/complete_task" method="POST" onClick="return confirm('Are you sure this is complete?')">
-                  <input type="hidden" name="client_id" value="<%= client.id %>">
-                  <input type="hidden" name="task_id" value="<%= task.id %>">
-                  <input type="submit" value="Complete" class="button">
-                </form>
-              </td>
+              <td><b>Client</b></td>
+              <td><b>Task</b></td>
+              <td><b>Created On</b></td>
+              <td><b>Updated On</b></td>
+              <td><b>Completed?</b></td>
+              <td><b>Click to Complete</b></td>
             </tr>
-          <% end %>
+            <% @clients.each do |client| %>
+              <% client.task_models.all(:order => [:priority.desc]).each do |task| %>
+                <tr>
+                  <td> <%= "#{client.name}" %> </td>
+                  <td> <%= "#{task.description}" %> </td>
+                  <td> <%= "#{task.created_at.strftime('%m/%d/%Y')}" %> </td>
+                  <td> <%= "#{task.updated_at.strftime('%m/%d/%Y')}" %> </td>
+                  <td> <%= "#{task.completed}" %> </td>
+                  <td> 
+                    <form action="/complete_task" method="POST" onClick="return confirm('Are you sure this is complete?')">
+                      <input type="hidden" name="client_id" value="<%= client.id %>">
+                      <input type="hidden" name="task_id" value="<%= task.id %>">
+                      <input type="submit" value="Complete" class="button">
+                    </form>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          </table>
+        <% else %>
+          <p id="clientTable">There are no clients in the database.</p>
         <% end %>
-      </table>
-    <% else %>
-      <p id="clientTable">There are no clients in the database.</p>
-    <% end %>
-  </div>
-  </body>
-</html>
+      </div>
+    </body>
+  </html>

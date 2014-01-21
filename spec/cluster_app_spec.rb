@@ -1,8 +1,10 @@
-require 'sinatra_cluster'
+require 'cluster_app'
 require 'spec_helper'
 require 'data_mapper'
-require_relative '../lib/client_model'
-require_relative '../lib/task_model'
+require 'client_model'
+require 'task_model'
+require 'user_model'
+require 'warden'
 
 DataMapper.setup(:default, "postgres://pszalwinski: @localhost/cluster")
 DataMapper.finalize
@@ -15,7 +17,8 @@ end
 describe Sinatra_Cluster do
   let(:cluster) { Sinatra_Cluster.new }
   before(:each) do
-    authorize 'margaret', 't4sktr4ck3r'
+    @user = UserModel.first(username: "admin")
+    login_as @user
   end
 
   describe 'cluster home page' do
@@ -55,6 +58,13 @@ describe Sinatra_Cluster do
     end
   end
 
+  describe 'viewing all prospects' do
+    it 'retrieves a 200 response' do
+      get '/prospects'
+      last_response.status.should == 200
+    end
+  end
+
   describe 'adding a client' do
     it 'creates a new client' do
       post '/add_client', params={:new_client => "Test Client from sinatra_cluster_spec.rb"}
@@ -63,6 +73,24 @@ describe Sinatra_Cluster do
       last_response.status.should == 302
 
       ClientModel.all(:name => "Test Client from sinatra_cluster_spec.rb").destroy
+    end
+
+    it 'adds client status' do
+      post '/add_client', params={:new_client => "Test Client", :status => "prospect"}
+
+      ClientModel.first(:status => "prospect").should_not be nil
+      ClientModel.all(:name => "Test Client").destroy
+    end
+  end
+
+  describe 'all_clients' do
+    it 'modifies the status of a client' do
+      ClientModel.create(:name => "Test Client")
+      fake_id = ClientModel.first(:name => "Test Client").id
+      post '/all_clients', params={:status => "prospect", :client_id => fake_id} 
+
+      ClientModel.first(:id => fake_id).status.should == "prospect"
+      ClientModel.all(:name => "Test Client").destroy
     end
   end
 
@@ -77,6 +105,22 @@ describe Sinatra_Cluster do
 
       TaskModel.all(:description => "test adding a task").destroy
       ClientModel.all(:name => "test adding a task").destroy
+    end
+  end
+
+  describe 'adding a user' do
+    it 'retrieves a 200 response' do
+      get '/add_user'
+      last_response.status.should == 200
+    end
+
+    it 'creates a new user in the database' do
+      post '/add_user', params={:username => "fake", :password => "password"}
+
+      last_response.status.should == 302
+
+      UserModel.first(:username => "fake").should_not be_nil
+      UserModel.all(:username => "fake").destroy
     end
   end
 end

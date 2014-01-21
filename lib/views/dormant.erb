@@ -2,21 +2,21 @@
 <html>
   <body>
     <h1 class="belowHeader">
-      Active Clients
+      Dormant Clients
     </h1>
     <div class="belowHeader">
       <%  if @clients %>
         <table class="table table-striped" id="smallTable">
           <tr>
-            <td><b>Clients</b></td>
+            <td><b>Dormant</b></td>
             <td><b>Status</b></td>
             <td><b>Click to Change</b></td>
           </tr>
           <% @clients.each do |client| %>
             <tr>
-              <form action="/all_clients" method="POST">
+              <form action="/dormant" method="POST">
                 <td><a href="/<%= client.id %>"> <%= "#{client.name}" %> </td>
-                  <td> <%= presenter.client_type_selection(::Client::States::ACTIVE) %></td>
+                  <td> <%= presenter.client_type_selection(::Client::States::DORMANT) %></td>
                   <td> 
                     <input type="hidden" name="client_id" value="<%= "#{client.id}" %>">
                     <input type="submit" value="Change" class="button">
